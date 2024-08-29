@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import ToggleSwitch from '@/app/components/Header/ToggleSwitch';
+import ToggleSwitch from '@/components/Header/ToggleSwitch';
 
 const Header = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -70,6 +70,7 @@ const Header = () => {
             <Link href="/schedule" className={`hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
             <Link href="/attendance" className={`hover:underline ${getActiveClass('/attendance')}`}>Attendance</Link>
             <ToggleSwitch checked={darkMode} onChange={handleToggle} />
+            <Link href="/login" className={`hover:underline ring-1 shadow-inner dark:ring-gray-50 px-5  ${getActiveClass('/attendance')}`}>Log in</Link>
             
           </nav>
         </div>

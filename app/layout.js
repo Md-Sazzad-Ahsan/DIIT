@@ -1,12 +1,38 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header/Header";
+import Header from "../components/Header/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
+  manifest: "/manifest.json",
   title: "CSE-20",
-  description: "DIIT CSE-20 Class Schedule and Attendance",
+  description:
+    "A web app for CSE 20",
+  openGraph: {
+    title: "CSE-20",
+    description:
+      "A web app for CSE 20",
+    type: "website",
+    locale: "en_US",
+    url: "https://cse20.vercel.app",
+    images: [
+      {
+        url: "https://cse20.vercel.app/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "CSE-20 Open Graph Image",
+      },
+    ],
+    siteName: "CSE-20's Web App",
+  },
+  twitter: {
+    title: "CSE-20",
+    description:
+      "A web app for CSE 20",
+    card: "summary_large_image",
+     },
+  metadataBase: new URL("https://cse20.vercel.app"),
 };
 
 export default function RootLayout({

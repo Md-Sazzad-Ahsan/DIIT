@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".", // Base directory for resolving non-relative module names
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["/*"] // Maps @/something to app/something
     }
-  }
+  },
+  "include": ["app"] // Includes the `app` directory
 }

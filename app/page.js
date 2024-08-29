@@ -1,10 +1,9 @@
-import Image from "next/image";
-import ClassScheduleTable from "./components/Schedule/ClassScheduleTable";
+import ResponsiveTable from "@/components/Schedule/ResponsiveTable";
 
 export default function Home() {
   return (
-    <main className="">
-      <ClassScheduleTable />
+    <main className="pt-20">
+      <ResponsiveTable />
     </main>
   );
 };
