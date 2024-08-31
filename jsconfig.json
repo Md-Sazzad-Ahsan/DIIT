@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".", // Base directory for resolving non-relative module names
     "paths": {
-      "@/*": ["/*"] // Maps @/something to app/something
+      "@/*": ["./*"] // Sets up a path alias for easier imports
     }
   },
-  "include": ["app"] // Includes the `app` directory
+  "include": ["app", "pages", "components", "lib/dbConnect.js", "utils", "data"] // Includes common directories
 }

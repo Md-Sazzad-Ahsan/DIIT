@@ -1,8 +1,8 @@
 {
-    "id":"2",
-    "name": "AHSAN",
-    "short_name": "AHSAN",
-    "description": "A portfolio web-app about Md. Sazzad Ahsan",
+    "id":"3",
+    "name": "CSE-20",
+    "short_name": "DIIT",
+    "description": "Schedule and Attendance of CSE-20",
     "icons": [
       {
         "src": "/android-chrome-192x192.png",

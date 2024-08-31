@@ -1,0 +1,18 @@
+const sectionAStudents = [
+  { id: "16", name: "Paul Adams" },
+  { id: "17", name: "Quincy Baker" },
+  { id: "18", name: "Rachel Turner" },
+  { id: "19", name: "Samuel Perez" },
+  { id: "20", name: "Tina Campbell" },
+  { id: "21", name: "Uma Mitchell" },
+  { id: "22", name: "Victor Parker" },
+  { id: "23", name: "Wendy Evans" },
+  { id: "24", name: "Xander Collins" },
+  { id: "25", name: "Yara Bell" },
+  { id: "26", name: "Zane Murphy" },
+  { id: "27", name: "Ava Rivera" },
+  { id: "28", name: "Benjamin Cooper" },
+  { id: "29", name: "Charlotte Howard" },
+  { id: "30", name: "Daniel Ward" },
+];
+export default sectionAStudents;

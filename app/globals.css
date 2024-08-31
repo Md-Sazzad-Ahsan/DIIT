@@ -4,14 +4,19 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: white;
-  --text-color: black;
+  --bg-color: rgb(244, 241, 241);
+  --text-color: rgb(32, 29, 29);
 }
 
 .dark {
-  --bg-color: #343a40;
-  --text-color: white;
+  --bg-color: #2f343a;
+  --text-color: #ebedf0;
 }
+
+html {
+  overflow-y: scroll;
+}
+
 
 body {
   background-color: var(--bg-color);

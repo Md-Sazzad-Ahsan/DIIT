@@ -1,60 +1,144 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 export default function ResponsibleTable() {
-    const days = ["SUN", "MON", "TUE", "WED", "THU"];
-    const times = ["11:40 - 12:50", "12:50 - 02:00", "02:30 - 03:40"];
-    const coursesByDay = {
-        SUN: [" ", " ", " "],
-        MON: ["Computer Graphics (MR)", "Compiler Design (MA)", "Computer Graphics Lab (MMR)"],
-        TUE: ["E-com. & Web Eng. (NJS)", "Computer Graphics (MR)", " "],
-        WED: ["Artificial Intelligence (TCO)", "Compiler Design (MA)", " "],
-        THU: ["E-com. & Web Eng. (NJS)", "Artificial Intelligence (TCO)", "Compiler Design Lab (MA)"]
-    };
-    const rooms = ["101", "102", "103", "104", "105"];
+  const days = ["SUN", "MON", "TUE", "WED", "THU"];
+  const times = ["11:40 - 12:50", "12:50 - 02:00", "02:30 - 03:40"];
 
-    // Check if a row is empty
-    const isRowEmpty = (courseArray) => courseArray.every(course => !course.trim());
+  const coursesByDay = {
+    SUN: [
+      { courseName: "", facultyName: "" },
+      { courseName: "", facultyName: "" },
+      { courseName: "", facultyName: "" }
+    ],
+    MON: [
+      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman" },
+      { courseName: "Compiler Design", facultyName: "Moumita Akter" },
+      { courseName: "Computer Graphics Lab", facultyName: "MD Musfiqur Rahman" }
+    ],
+    TUE: [
+      { courseName: "E-com. & Web Eng.", facultyName: "Nusrhat Jahan Sarkar" },
+      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman" },
+      { courseName: "", facultyName: "" }
+    ],
+    WED: [
+      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe" },
+      { courseName: "Compiler Design", facultyName: "Moumita Akter" },
+      { courseName: "", facultyName: "" }
+    ],
+    THU: [
+      { courseName: "E-com. & Web Eng.", facultyName: "Nusrhat Jahan Sarkar" },
+      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe" },
+      { courseName: "Compiler Design Lab", facultyName: "Moumita Akter" }
+    ]
+  };
 
-    return (
-      <div className="overflow-x-auto px-2 sm:px-16 md:px-28 lg:px-56 pt-20">
-        <table className="min-w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="text-center">
-              <th className="border border-gray-300 px-2 py-2 whitespace-nowrap" scope="col">DAY</th>
-              <th className="border border-gray-300 px-2 py-2 whitespace-nowrap" scope="col">ROOM</th>
-              {times.map((time, index) => (
-                <th key={index} className="border border-gray-300 px-2 py-2 whitespace-nowrap" scope="col">
-                  {time}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {days.map((day, dayIndex) => {
-              // Get the courses for the current day
-              const rowCourses = coursesByDay[day] || [];
-              
-              // Check if the row should be empty
-              if (isRowEmpty(rowCourses)) return null; // Skip rendering if the row is empty
+  const rooms = ["704", "704", "704", "704", "704"];
 
-              return (
-                <tr key={dayIndex} className="text-center">
-                  <td className="border border-gray-300 px-2 py-2 whitespace-nowrap" scope="row">{day}</td>
-                  <td className="border border-gray-300 px-2 py-2 whitespace-nowrap">{rooms[dayIndex]}</td>
-                  {rowCourses.map((course, timeIndex) => (
-                    <td key={timeIndex} className="border border-gray-300 px-2 py-2 whitespace-nowrap">
-                      {course}
-                    </td>
-                  ))}
-                  {/* Fill the rest of the columns with empty cells if necessary */}
-                  {times.length > rowCourses.length && 
-                    Array(times.length - rowCourses.length).fill(null).map((_, index) => (
-                      <td key={`empty-${index}`} className="border border-gray-300 px-2 py-2 whitespace-nowrap"></td>
-                    ))
-                  }
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    );
+  const [popup, setPopup] = useState(null);
+  const [popupTimeout, setPopupTimeout] = useState(null);
+
+  const handleCellClick = (day, time, course, faculty) => {
+    if (popupTimeout) clearTimeout(popupTimeout);
+
+    setPopup({
+      day,
+      time,
+      courseName: course,
+      facultyName: faculty
+    });
+
+    const timeoutId = setTimeout(() => setPopup(null), 5000);
+    setPopupTimeout(timeoutId);
+  };
+
+  const handleClosePopup = () => {
+    if (popupTimeout) clearTimeout(popupTimeout);
+    setPopup(null);
+  };
+
+  return (
+    <div className="overflow-x-auto px-2 sm:px-10 md:px-28 lg:px-56 py-20">
+      <table className="min-w-full border-collapse border border-gray-200">
+        <thead>
+          <tr className="text-center">
+            <th className="border border-gray-300 px-4 py-3 whitespace-nowrap" scope="col">DAY</th>
+            <th className="border border-gray-300 px-4 py-3 whitespace-nowrap" scope="col">ROOM</th>
+            {times.map((time, index) => (
+              <th key={index} className="border border-gray-300 px-4 py-3 whitespace-nowrap" scope="col">
+                {time}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {days.map((day, dayIndex) => {
+            const rowCourses = coursesByDay[day] || [];
+
+            if (rowCourses.every((course) => !course.courseName.trim())) return null;
+
+            return (
+              <tr key={dayIndex} className="text-center">
+                <td className="border border-gray-300 px-4 py-3 whitespace-nowrap" scope="row">{day}</td>
+                <td className="border border-gray-300 px-4 py-3 whitespace-nowrap">{rooms[dayIndex]}</td>
+                {rowCourses.map((course, timeIndex) => (
+                  <td
+                    key={timeIndex}
+                    className="border border-gray-300 px-4 py-3 whitespace-nowrap cursor-pointer"
+                    onClick={() => handleCellClick(day, times[timeIndex], course.courseName, course.facultyName)}
+                  >
+                    {course.courseName || course.facultyName}
+                  </td>
+                ))}
+                {times.length > rowCourses.length &&
+                  Array(times.length - rowCourses.length).fill(null).map((_, index) => (
+                    <td key={`empty-${index}`} className="border border-gray-300 px-4 py-3 whitespace-nowrap"></td>
+                  ))
+                }
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+
+      {popup && (
+     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70 z-50">
+     <div className="bg-gray-100 dark:bg-gray-500 p-4 rounded-lg shadow-lg relative max-w-sm w-full">
+       <div className="flex items-center justify-between mb-4 border-b pb-2">
+         <h2 className="text-gray-700 dark:text-gray-50 text-xl font-semibold">Class Details</h2>
+         <p className="text-gray-700 dark:text-gray-100">{popup.time}</p>
+       </div>
+       <div className="mb-4">
+         <div className="flex items-center mb-2 space-x-4">
+           <div className="flex items-center gap-2">
+             <p className="font-semibold text-gray-700 dark:text-gray-50">Day: </p>
+             <p className=" text-gray-600 dark:text-gray-200">{popup.day}</p>
+           </div>
+           <div className="flex items-center gap-2">
+             <p className="font-semibold  text-gray-700 dark:text-gray-50">Room: </p>
+             <p className="text-gray-600 dark:text-gray-200">{rooms[days.indexOf(popup.day)]}</p>
+           </div>
+         </div>
+         <div className="mb-2 flex gap-2">
+           <p className="font-semibold  text-gray-700 dark:text-gray-50">Course: </p>
+           <p className=" text-gray-600 dark:text-gray-200">{popup.courseName}</p>
+         </div>
+         <div className="flex gap-2">
+           <p className="font-semibold  text-gray-700 dark:text-gray-50">Faculty: </p>
+           <p className=" text-gray-600 dark:text-gray-200">{popup.facultyName}</p>
+         </div>
+       </div>
+       <button
+         className="absolute bottom-4 right-4 px-4 py-1 bg-teal-600 text-white rounded-md shadow-sm hover:bg-teal-700 transition duration-150"
+         onClick={handleClosePopup}
+       >
+         Close
+       </button>
+     </div>
+   </div>
+   
+      )}
+    </div>
+  );
 }
