@@ -1,18 +1,20 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header/Header";
+// import { getServerSession } from "next-auth";
+// import SessionProvider from "@/utils/SessionProvider"
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   manifest: "/manifest.json",
-  title: "CSE-20",
+  title: "CSE-DIIT",
   description:
     "A web app for CSE 20",
   openGraph: {
-    title: "CSE-20",
+    title: "CSE-DIIT",
     description:
-      "A web app for CSE 20",
+      "A web app for CSE 20, DIIT",
     type: "website",
     locale: "en_US",
     url: "https://cse20.vercel.app",
@@ -27,7 +29,7 @@ export const metadata = {
     siteName: "CSE-20's Web App",
   },
   twitter: {
-    title: "CSE-20",
+    title: "CSE-DIIT",
     description:
       "A web app for CSE 20",
     card: "summary_large_image",
@@ -35,9 +37,11 @@ export const metadata = {
   metadataBase: new URL("https://cse20.vercel.app"),
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }) {
+
+  // const session = await getServerSession();
   return (
     <html lang="en">
       <head>
@@ -46,9 +50,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#333a3f" />
       </head>
       <body className={`${inter.className}`}>
+        {/* <SessionProvider session={session}> */}
+
         <Header />
         <main>{children}</main>
         {/* <Footer /> */}
+        
+        {/* </SessionProvider> */}
       </body>
     </html>
   );

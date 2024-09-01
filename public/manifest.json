@@ -1,6 +1,6 @@
 {
     "id":"3",
-    "name": "CSE-20",
+    "name": "CSE-DIIT",
     "short_name": "DIIT",
     "description": "Schedule and Attendance of CSE-20",
     "icons": [
@@ -19,10 +19,20 @@
         "src": "/apple-touch-icon.png",
         "sizes": "512x512",
         "type": "image/png"
+      },
+      {
+        "src": "/favicon-32x32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+      },
+      {
+        "src": "/favicon-16x16.png",
+        "sizes": "16x16",
+        "type": "image/png"
       }
     ],
-    "theme_color": "#333a3f",
-    "background_color": "#333a3f",
+    "theme_color": "#2f343a",
+    "background_color": "#2f343a",
     "start_url": "/",
     "display": "standalone",
     "orientation": "portrait"

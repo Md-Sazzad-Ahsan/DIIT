@@ -62,7 +62,7 @@ const Header = () => {
         }}
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="hidden lg:flex bg-[var(--bg-color)] text-[var(--text-color)] fixed w-full top-0 z-50 sm:px-16 md:px-28 lg:px-56 py-4"
+        className="hidden shadow-sm lg:flex text-teal-500 dark:text-gray-50 fixed w-full top-0 z-50 sm:px-16 md:px-28 lg:px-56 py-4"
       >
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/" className="text-xl font-bold text-teal-600 dark:text-teal-600 ">DIIT</Link>
@@ -70,7 +70,7 @@ const Header = () => {
             <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
             <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>Attendance</Link>
             <ToggleSwitch checked={darkMode} onChange={handleToggle} />
-            <Link href="/login" className={`hover:underline ring-1 shadown-md bg-teal-600 text-gray-50 px-5 rounded-sm  ${getActiveClass('/login')}`}>Log in</Link>
+            <Link href="/login" className={`hover:underline ring-1 shadown-md bg-teal-600 text-gray-50 px-5 rounded-sm`}>Log in</Link>
             
           </nav>
         </div>
@@ -85,8 +85,8 @@ const Header = () => {
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       
-      className="lg:hidden bg-[var(--bg-color)] text-[var(--text-color)] shadow-md fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5">
-        <Link href="/" className="text-xl font-bold">DIIT</Link>
+      className="lg:hidden bg-gray-50 dark:bg-darkBg shadow-md fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5">
+        <Link href="/" className="text-xl text-teal-600 dark:text-teal-600 font-bold">DIIT</Link>
         <section className='flex'>
           <div className="mt-4 px-4">
             <ToggleSwitch checked={darkMode} onChange={handleToggle} />
@@ -121,7 +121,7 @@ const Header = () => {
           <Link href="/" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/')}`}>DIIT</Link>
           <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
           <Link href="/attendance" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/attendance')}`}>Attendance</Link>
-          <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600 ${getActiveClass('/login')}`}>login</Link>
+          <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600`}>login</Link>
           
         </nav>
       </motion.aside>
