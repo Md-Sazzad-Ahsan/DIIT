@@ -140,6 +140,7 @@ export default function ResponsibleTable() {
           </div>
         </div>
       )}
+      <p className="text-xs pt-1 text-gray-400">Tap on the course-name to view details.</p>
     </div>
   );
 }

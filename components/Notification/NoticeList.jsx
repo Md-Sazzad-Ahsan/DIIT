@@ -25,7 +25,8 @@ const NoticeList = () => {
   }, []);
 
   return (
-    <div className="max-w-full mx-5 sm:mx-10 md:mx-28 lg:mx-56 mt-10 p-6 bg-gray-50 dark:bg-darkBg shadow-md sm:shadow-lg rounded-md">
+    <main className='sm:px-10 md:px-28 lg:px-56'>
+    <div className="max-w-full mx-auto my-10 p-5 bg-gray-50 dark:bg-darkBg shadow-sm sm:shadow-lg rounded-md">
       <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-50">Notices</h2>
       {error ? (
         <p className="text-red-600">{error}</p>
@@ -35,13 +36,13 @@ const NoticeList = () => {
             notices.map((notice, index) => (
               <div
                 key={index}
-                className="p-4 bg-white dark:bg-darkBg rounded-md shadow-md border border-gray-200"
+                className="p-4 bg-gray-50 dark:bg-darkBg rounded-md shadow-inner border border-gray-200"
               >
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-50">
+                <h3 className="text-xl font-bold text-gray-700 dark:text-gray-50">
                   {notice.headline}
                 </h3>
-                <p className="text-gray-700 dark:text-gray-100 mt-2">{notice.description}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-200 mt-2">
+                <p className="text-gray-700 dark:text-gray-50 mt-2">{notice.description}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-300 mt-5">
                   Date: {notice.date}
                 </p>
               </div>
@@ -52,6 +53,7 @@ const NoticeList = () => {
         </div>
       )}
     </div>
+    </main>
   );
 };
 

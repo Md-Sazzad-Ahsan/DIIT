@@ -8,7 +8,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import ToggleSwitch from '@/components/Header/ToggleSwitch';
 
 const Header = () => {
-  const { data: session } = useSession(); // 1. Use `useSession` to check authentication status
+  const { data: session } = useSession(); // Use `useSession` to check authentication status
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
@@ -32,7 +32,7 @@ const Header = () => {
     setSidebarOpen(false);
   };
 
-  const handleLogout = () => { // 4. Handle logout
+  const handleLogout = () => { 
     signOut({ redirect: false }).then(() => {
       router.push("/");
     });
@@ -71,14 +71,18 @@ const Header = () => {
           <Link href="/" className="text-xl font-bold text-teal-600 dark:text-teal-600">DIIT</Link>
           <nav className="space-x-8 flex items-center">
             <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
-            <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>Attendance</Link>
+            {session && ( // Only show "Attendance" link if logged in
+              <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>
+                Attendance
+              </Link>
+            )}
             <ToggleSwitch checked={darkMode} onChange={handleToggle} />
-            {session ? ( // 3. Change button text and action based on session status
-              <button onClick={handleLogout} className="hover:underline ring-1 shadown-md bg-teal-600 text-gray-50 px-5 rounded-sm">
+            {session ? ( 
+              <button onClick={handleLogout} className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-5 rounded-sm">
                 Log out
               </button>
             ) : (
-              <Link href="/login" className="hover:underline ring-1 shadown-md bg-teal-600 text-gray-50 px-5 rounded-sm">
+              <Link href="/login" className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-5 rounded-sm">
                 Log in
               </Link>
             )}
@@ -130,8 +134,12 @@ const Header = () => {
         <nav className="mt-4 px-4 flex flex-col text-center -z-50">
           <Link href="/" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/')}`}>DIIT</Link>
           <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
-          <Link href="/attendance" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/attendance')}`}>Attendance</Link>
-          {session ? ( // 3. Change button text and action for mobile based on session status
+          {session && ( // Only show "Attendance" link if logged in
+            <Link href="/attendance" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/attendance')}`}>
+              Attendance
+            </Link>
+          )}
+          {session ? (
             <button onClick={handleLogout} className="block py-2 hover:underline bg-teal-600">Log out</button>
           ) : (
             <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600`}>Log in</Link>
