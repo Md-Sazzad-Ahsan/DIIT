@@ -10,23 +10,23 @@ export const metadata = {
   manifest: "/manifest.json",
   title: "CSE-DIIT",
   description:
-    "A web app for CSE 20",
+    "A web app for CSE20-DIIT",
   openGraph: {
     title: "CSE-DIIT",
     description:
-      "A web app for CSE 20, DIIT",
+      "A web app for CSE, DIIT",
     type: "website",
     locale: "en_US",
     url: "https://cse20.vercel.app",
     images: [
       {
-        url: "https://cse20.vercel.app/opengraph-image.jpg",
+        url: "https://cse20.vercel.app/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "CSE-20 Open Graph Image",
+        alt: "CSE-DIIT Open Graph Image",
       },
     ],
-    siteName: "CSE-20's Web App",
+    siteName: "CSE-DIIT's Web App",
   },
   twitter: {
     title: "CSE-DIIT",

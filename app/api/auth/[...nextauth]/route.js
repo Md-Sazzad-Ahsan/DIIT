@@ -4,10 +4,13 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import User from "@/models/User";
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// Ensure the database is connected before handling requests
+if (!mongoose.connection.readyState) {
+  mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+}
 
 const handler = NextAuth({
   providers: [
@@ -18,25 +21,29 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await User.findOne({ email: credentials.email });
-        if (!user) {
-          throw new Error("No user found with this email");
+        try {
+          const user = await User.findOne({ email: credentials.email });
+          if (!user) {
+            throw new Error("No user found with this email");
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            throw new Error("Invalid password");
+          }
+
+          return {
+            id: user._id,
+            email: user.email,
+            isAdmin: user.isAdmin, // Include the isAdmin field
+          };
+        } catch (error) {
+          throw new Error("Failed to authorize user");
         }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          throw new Error("Invalid password");
-        }
-
-        return {
-          id: user._id,
-          email: user.email,
-          isAdmin: user.isAdmin,  // Include the isAdmin field
-        };
       },
     }),
   ],
@@ -46,12 +53,12 @@ const handler = NextAuth({
   },
   callbacks: {
     async session({ session, token }) {
-      session.user = token.user;  // Pass through user object with isAdmin
+      session.user = token.user; // Pass through user object with isAdmin
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
-        token.user = user;  // Include isAdmin in token
+        token.user = user; // Include isAdmin in token
       }
       return token;
     },
@@ -62,4 +69,5 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
 });
 
+// Next.js App Router expects the handlers to be exported as named exports
 export { handler as GET, handler as POST };
