@@ -4,33 +4,38 @@ import { useState, useEffect } from "react";
 
 export default function ResponsibleTable() {
   const days = ["SUN", "MON", "TUE", "WED", "THU"];
-  const times = ["11:40AM - 12:50PM", "12:50PM - 02:00PM", "02:30PM - 03:40PM"];
+  const times = ["10:10AM - 11:20AM", "11:40AM - 12:50PM", "12:50PM - 02:00PM"];
 
   const coursesByDay = {
     SUN: [
       { courseName: "", facultyName: "", room: "" },
       { courseName: "", facultyName: "", room: "" },
+      { courseName: "", facultyName: "", room: "" },
       { courseName: "", facultyName: "", room: "" }
     ],
     MON: [
-      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "706" },
-      { courseName: "Compiler Design", facultyName: "Moumita Akter", room: "706" },
-      { courseName: "Computer Graphics Lab", facultyName: "MD Musfiqur Rahman", room: "715" }
+      { courseName: "Computer Graphics Lab", facultyName: "MD Musfiqur Rahman", room: "715" },
+      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "704" },
+      { courseName: "Compiler Design", facultyName: "Moumita Akter", room: "704" },
+      // { courseName: "", facultyName: "", room: " " },
     ],
     TUE: [
-      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "706" },
-      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "706" },
-      { courseName: "", facultyName: "", room: "N/A" }
+      { courseName: "", facultyName: "", room: "N/A" },
+      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "704" },
+      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "704" },
+      // { courseName: "", facultyName: "", room: " " },
     ],
     WED: [
-      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "706" },
-      { courseName: "Compiler Design", facultyName: "Moumita Akter", room: "706" },
-      { courseName: "", facultyName: "", room: "N/A" }
+      { courseName: "", facultyName: "", room: "N/A" },
+      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "704" },
+      { courseName: "Compiler Design", facultyName: "Moumita Akter", room: "704" },
+      // { courseName: "", facultyName: "", room: " " },
     ],
     THU: [
-      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "706" },
-      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "706" },
-      { courseName: "Compiler Design Lab", facultyName: "Moumita Akter", room: "715" }
+      { courseName: "Compiler Design Lab", facultyName: "Moumita Akter", room: "714" },
+      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "704" },
+      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "704" },
+      // { courseName: "", facultyName: "", room: " " },
     ]
   };
 
@@ -100,7 +105,7 @@ export default function ResponsibleTable() {
       </table>
 
       {popup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-40 z-50">
           <div className="bg-gray-100 dark:bg-gray-500 p-4 rounded-lg shadow-lg relative max-w-sm w-full">
             <div className="flex items-center justify-between mb-4 border-b pb-2">
               <h2 className="text-gray-700 dark:text-gray-50 text-xl font-semibold">Class Details</h2>

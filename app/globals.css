@@ -4,12 +4,12 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: rgb(244, 241, 241);
+  --bg-color: rgb(250, 250, 250);
   --text-color: rgb(32, 29, 29);
 }
 
 .dark {
-  --bg-color: #2f343a;
+  --bg-color: #35383e;
   --text-color: #ffffff;
 }
 

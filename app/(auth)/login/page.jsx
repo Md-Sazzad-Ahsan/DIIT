@@ -1,10 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 
 export default function LoginPage() {
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [session, router]);
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
+
   const [formData, setFormData] = useState({
-    usernameOrEmail: "",
+    email: "",
     password: "",
     rememberMe: false,
   });
@@ -17,35 +35,57 @@ export default function LoginPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    const { email, password } = formData;
+
+    if (!isValidEmail(email)) {
+      setError("This email is invalid");
+      return;
+    }
+    if (!password || password.length < 8) {
+      setError("The password must be at least 8 characters");
+      return;
+    }
+
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    if (res?.error) {
+      setError("Invalid Email or Password");
+    } else {
+      setError("");
+      if (res?.url) router.replace("/dashboard");
+    }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded shadow-md">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-darkBg">
+      <div className="w-full max-w-md p-8 space-y-8 bg-gray-100 dark:bg-darkBg rounded md:shadow-lg">
         <h2 className="text-2xl font-bold text-center">Log In</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
-              htmlFor="usernameOrEmail"
-              className="block text-sm font-medium text-gray-700"
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              Username or Email
+              Email
             </label>
             <input
-              type="text"
-              name="usernameOrEmail"
-              id="usernameOrEmail"
-              value={formData.usernameOrEmail}
+              type="email"
+              name="email"
+              id="email"
+              value={formData.email}
               onChange={handleChange}
-              className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-1 p-2 border border-gray-200 dark:border-gray-500 rounded focus:outline-none focus:ring-1 bg-gray-50 dark:bg-gray-700 focus:ring-blue-100 shadow-inner"
               required
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Password
             </label>
             <input
@@ -54,7 +94,7 @@ export default function LoginPage() {
               id="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-1 p-2 border border-gray-200 dark:border-gray-500 rounded focus:outline-none focus:ring-1 bg-gray-50 dark:bg-gray-700 focus:ring-blue-100 shadow-inner"
               required
             />
           </div>
@@ -66,28 +106,29 @@ export default function LoginPage() {
                 id="rememberMe"
                 checked={formData.rememberMe}
                 onChange={handleChange}
-                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-400"
               />
-              <label htmlFor="rememberMe" className="ml-2 text-sm text-gray-700">
+              <label htmlFor="rememberMe" className="ml-2 text-sm text-teal-500">
                 Remember me
               </label>
             </div>
             <div>
-              <a href="/forgot-password" className="text-sm text-blue-500 hover:underline">
+              <Link href="/forgot-password" className="text-sm text-teal-500 hover:underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full py-2 px-4 bg-teal-600 text-white font-semibold rounded hover:bg-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-400"
           >
             Log In
           </button>
+          <p className="text-red-500 text-sm mt-2">{error && error}</p>
         </form>
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-4 text-gray-500">OR</span>
+          <span className="mx-4 text-gray-500 dark:text-gray-300">or</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <div className="flex justify-center space-x-4">
@@ -98,11 +139,11 @@ export default function LoginPage() {
             GitHub
           </button>
         </div>
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
           Dont have an account?{" "}
-          <a href="/register" className="text-blue-500 hover:underline">
+          <Link href="/register" className="text-teal-500 hover:underline">
             Sign up
-          </a>
+          </Link>
         </p>
       </div>
     </div>

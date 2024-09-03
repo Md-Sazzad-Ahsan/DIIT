@@ -1,16 +1,16 @@
 "use client";
+
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-
+import { useSession, signOut } from "next-auth/react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import ToggleSwitch from '@/components/Header/ToggleSwitch';
 
 const Header = () => {
+  const { data: session } = useSession(); // 1. Use `useSession` to check authentication status
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  // useRouter now uses next/navigation for client components
   const router = useRouter();
 
   useEffect(() => {
@@ -32,14 +32,18 @@ const Header = () => {
     setSidebarOpen(false);
   };
 
-  const pathname = usePathname();
+  const handleLogout = () => { // 4. Handle logout
+    signOut({ redirect: false }).then(() => {
+      router.push("/");
+    });
+  };
 
+  const pathname = usePathname();
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-
     if (latest > previous && latest > 150) {
       setHidden(true);
     } else {
@@ -47,7 +51,6 @@ const Header = () => {
     }
   });
 
-  // Function to determine the active link class
   const getActiveClass = (path) => {
     return pathname === path ? 'text-teal-400 dark:text-teal-600 underline' : '';
   };
@@ -62,30 +65,37 @@ const Header = () => {
         }}
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="hidden shadow-sm lg:flex text-teal-500 dark:text-gray-50 fixed w-full top-0 z-50 sm:px-16 md:px-28 lg:px-56 py-4"
+        className="hidden shadow-sm lg:flex text-teal-500 dark:text-gray-50 bg-gray-50 dark:bg-darkBg fixed w-full top-0 sm:px-16 md:px-28 lg:px-56 py-4"
       >
         <div className="container mx-auto flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold text-teal-600 dark:text-teal-600 ">DIIT</Link>
+          <Link href="/" className="text-xl font-bold text-teal-600 dark:text-teal-600">DIIT</Link>
           <nav className="space-x-8 flex items-center">
             <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
             <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>Attendance</Link>
             <ToggleSwitch checked={darkMode} onChange={handleToggle} />
-            <Link href="/login" className={`hover:underline ring-1 shadown-md bg-teal-600 text-gray-50 px-5 rounded-sm`}>Log in</Link>
-            
+            {session ? ( // 3. Change button text and action based on session status
+              <button onClick={handleLogout} className="hover:underline ring-1 shadown-md bg-teal-600 text-gray-50 px-5 rounded-sm">
+                Log out
+              </button>
+            ) : (
+              <Link href="/login" className="hover:underline ring-1 shadown-md bg-teal-600 text-gray-50 px-5 rounded-sm">
+                Log in
+              </Link>
+            )}
           </nav>
         </div>
       </motion.header>
 
       {/* Mobile Header */}
-      <motion.header 
-       variants={{
-        visible: { y: 0 },
-        hidden: { y: "-100%" },
-      }}
-      animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      
-      className="lg:hidden bg-gray-50 dark:bg-darkBg shadow-md fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5">
+      <motion.header
+        variants={{
+          visible: { y: 0 },
+          hidden: { y: "-100%" },
+        }}
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className="lg:hidden bg-gray-50 dark:bg-darkBg shadow-md fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5"
+      >
         <Link href="/" className="text-xl text-teal-600 dark:text-teal-600 font-bold">DIIT</Link>
         <section className='flex'>
           <div className="mt-4 px-4">
@@ -121,8 +131,11 @@ const Header = () => {
           <Link href="/" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/')}`}>DIIT</Link>
           <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
           <Link href="/attendance" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/attendance')}`}>Attendance</Link>
-          <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600`}>login</Link>
-          
+          {session ? ( // 3. Change button text and action for mobile based on session status
+            <button onClick={handleLogout} className="block py-2 hover:underline bg-teal-600">Log out</button>
+          ) : (
+            <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600`}>Log in</Link>
+          )}
         </nav>
       </motion.aside>
     </>
