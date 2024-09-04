@@ -1,4 +1,3 @@
-// components/NoticeForm.jsx
 'use client';
 
 import { useState } from 'react';
@@ -8,6 +7,7 @@ export default function NoticeForm() {
   const [headline, setHeadline] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,9 +27,17 @@ export default function NoticeForm() {
 
       const data = await res.json();
       console.log('Notice created:', data);
-      // Optionally reset form fields or handle success
+
+      // Show success message and reset form fields
+      setSuccess('Notice published successfully!');
+      setDate('');
+      setHeadline('');
+      setDescription('');
+      setError(null); // Clear any existing errors
+
     } catch (error) {
       setError(error.message);
+      setSuccess(null); // Clear any existing success messages
       console.error('Error:', error);
     }
   };
@@ -78,6 +86,7 @@ export default function NoticeForm() {
           required
         />
       </div>
+      {success && <p className="text-green-500">{success}</p>}
       {error && <p className="text-red-500">{error}</p>}
       <button
         type="submit"
