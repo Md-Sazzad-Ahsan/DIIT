@@ -3,6 +3,7 @@ import { useSession, signIn } from 'next-auth/react';
 import NoticeForm from '@/components/Notification/NoticeForm';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import NoticeList from '@/components/Notification/NoticeList';
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -22,9 +23,12 @@ function Dashboard() {
   }
 
   return (
-    <main className='py-20 px-5 sm:px-10 md:px-28 lg:px-56'>
-      <div>Dashboard under Construction!</div>
-      <NoticeForm />
+    <main >
+     <div className='py-20 px-5 sm:px-10 md:px-28 lg:px-56'>
+     <div>Dashboard under Construction!</div>
+     <NoticeForm />
+     </div>
+      <NoticeList />
     </main>
   );
 }
