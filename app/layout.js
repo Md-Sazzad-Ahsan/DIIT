@@ -9,12 +9,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   manifest: "/manifest.json",
   title: "CSE-DIIT",
-  description:
-    "A web app for CSE20-DIIT",
+  description:"A comprehensive web application designed for students and faculty of the CSE Department at DIIT, offering easy access to schedules, notices, and academic resources for efficient learning.",
   openGraph: {
     title: "CSE-DIIT",
-    description:
-      "A web app for CSE, DIIT",
+    description:"A comprehensive web application designed for students and faculty of the CSE Department at DIIT, offering easy access to schedules, notices, and academic resources for efficient learning.",
     type: "website",
     locale: "en_US",
     url: "https://cse20.vercel.app",
@@ -31,7 +29,7 @@ export const metadata = {
   twitter: {
     title: "CSE-DIIT",
     description:
-      "A web app for CSE 20",
+     "A comprehensive web application designed for students and faculty of the CSE Department at DIIT, offering easy access to schedules, notices, and academic resources for efficient learning.",
     card: "summary_large_image",
      },
   metadataBase: new URL("https://cse20.vercel.app"),

@@ -135,7 +135,7 @@ export default function StudentTable() {
   return (
     <div className="my-20 py-10 px-5 sm:px-10 md:px-28 lg:px-56">
       <div className="grid grid-cols-2 items-center mb-4 gap-1">
-        <span className="text-gray-600 dark:text-gray-50 bg-gray-200 dark:bg-gray-700 pl-2 py-2 col-span-2">
+        <span className="text-gray-600 dark:text-gray-50 font-semibold bg-gray-200 dark:bg-gray-700 pl-2 py-2 col-span-2">
           Date: {currentDate}
         </span>
         <select
@@ -143,12 +143,12 @@ export default function StudentTable() {
           value={selectedBatch}
           onChange={(e) => setSelectedBatch(e.target.value)}
         >
-          <option value="CSE 20">Batch CSE 20</option>
-          <option value="CSE 21">Batch CSE 21</option>
-          <option value="CSE 22">Batch CSE 22</option>
-          <option value="CSE 23">Batch CSE 23</option>
-          <option value="CSE 24">Batch CSE 24</option>
-          <option value="CSE 25">Batch CSE 25</option>
+          <option value="CSE20">Batch CSE 20</option>
+          <option value="CSE21">Batch CSE 21</option>
+          <option value="CSE22">Batch CSE 22</option>
+          <option value="CSE23">Batch CSE 23</option>
+          <option value="CSE24">Batch CSE 24</option>
+          <option value="CSE25">Batch CSE 25</option>
         </select>
         <select
           className="text-gray-600 dark:text-gray-50 bg-gray-200 dark:bg-gray-700 font-semibold pl-2 py-2"

@@ -65,6 +65,18 @@ const handler = NextAuth({
   },
   session: {
     strategy: "jwt",
+    maxAge: 60 * 60 * 24 * 15, // Set session expiration to 15 days
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // Use cookies securely in production
+        sameSite: "lax",
+        path: "/",
+      },
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
 });

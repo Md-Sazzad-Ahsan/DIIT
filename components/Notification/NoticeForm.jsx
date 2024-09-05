@@ -1,16 +1,33 @@
-// components/NoticeForm.jsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function NoticeForm() {
   const [date, setDate] = useState('');
   const [headline, setHeadline] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    // Function to format the date as "01 Month 2024"
+    const formatDate = () => {
+      const today = new Date();
+      const day = today.getDate().toString().padStart(2, '0'); 
+      const month = today.toLocaleString('default', { month: 'long' }); 
+      const year = today.getFullYear();
+      return `${day} ${month} ${year}`;
+    };
+
+    setDate(formatDate());
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSuccessMessage(null); // Clear any previous success message
+    setError(null); // Clear any previous error
 
     try {
       const res = await fetch('/api/notices', {
@@ -22,21 +39,26 @@ export default function NoticeForm() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to create notice');
+        throw new Error('Failed to create notice,Try again!');
       }
 
       const data = await res.json();
       console.log('Notice created:', data);
-      // Optionally reset form fields or handle success
+      setDate(''); // Clear date field
+      setHeadline('');
+      setDescription('');
+      setSuccessMessage('Notice published. Please refresh!');
     } catch (error) {
       setError(error.message);
       console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false); // Re-enable the submit button
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-10">
-      <p className='text-gray-700 dark:text-gray-50 text-lg md:text-xl font-bold'>Publish a Notice!</p>
+    <form onSubmit={handleSubmit} className="space-y-4 mt-5">
+      <p className='text-gray-700 dark:text-gray-50 text-lg md:text-xl font-bold mb-5'>Publish a new Notice?</p>
       <div>
         <label htmlFor="date" className="block text-sm font-medium text-gray-700 dark:text-gray-50">
           Date
@@ -45,7 +67,7 @@ export default function NoticeForm() {
           type="text"
           id="date"
           value={date}
-          placeholder='01 January 2024'
+          placeholder='01 January 2024' // Optional: keep the placeholder for clarity
           onChange={(e) => setDate(e.target.value)}
           className="bg-gray-50 dark:bg-darkBg text-gray-600 dark:text-gray-100 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
           required
@@ -79,11 +101,13 @@ export default function NoticeForm() {
         />
       </div>
       {error && <p className="text-red-500">{error}</p>}
+      {successMessage && <p className="text-teal-500">{successMessage}</p>}
       <button
         type="submit"
-        className="bg-teal-600 text-white px-4 py-2 rounded-md"
+        className="bg-teal-600 text-gray-50 px-4 py-2 rounded-md"
+        disabled={isSubmitting} // Disable button while submitting
       >
-        Submit
+        {isSubmitting ? 'Submitting...' : 'Submit'}
       </button>
     </form>
   );

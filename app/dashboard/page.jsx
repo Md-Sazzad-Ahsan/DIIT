@@ -25,7 +25,6 @@ function Dashboard() {
   return (
     <main >
      <div className='py-20 px-5 sm:px-10 md:px-28 lg:px-56'>
-     <div>Dashboard under Construction!</div>
      <NoticeForm />
      </div>
       <NoticeList />

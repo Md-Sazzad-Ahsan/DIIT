@@ -71,10 +71,15 @@ const Header = () => {
           <Link href="/" className="text-xl font-bold text-teal-600 dark:text-teal-600">DIIT</Link>
           <nav className="space-x-8 flex items-center">
             <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
-            {session && ( // Only show "Attendance" link if logged in
-              <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>
-                Attendance
-              </Link>
+            {session && ( // Only show "Attendance" and "Dashboard" links if logged in
+              <>
+                <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>
+                  Attendance
+                </Link>
+                <Link href="/dashboard" className={`hover:underline font-semibold ${getActiveClass('/dashboard')}`}>
+                  Dashboard
+                </Link>
+              </>
             )}
             <ToggleSwitch checked={darkMode} onChange={handleToggle} />
             {session ? ( 
@@ -134,15 +139,20 @@ const Header = () => {
         <nav className="mt-4 px-4 flex flex-col text-center -z-50">
           <Link href="/" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/')}`}>DIIT</Link>
           <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
-          {session && ( // Only show "Attendance" link if logged in
-            <Link href="/attendance" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/attendance')}`}>
-              Attendance
-            </Link>
+          {session && ( // Only show "Attendance" and "Dashboard" links if logged in
+            <>
+              <Link href="/attendance" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/attendance')}`}>
+                Attendance
+              </Link>
+              <Link href="/dashboard" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/dashboard')}`}>
+                Dashboard
+              </Link>
+            </>
           )}
           {session ? (
             <button onClick={handleLogout} className="block py-2 hover:underline bg-teal-600">Log out</button>
           ) : (
-            <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600`}>Log in</Link>
+            <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600 text-gray-50`}>Log in</Link>
           )}
         </nav>
       </motion.aside>

@@ -20,13 +20,13 @@ export default function ResponsibleTable() {
       // { courseName: "", facultyName: "", room: " " },
     ],
     TUE: [
-      { courseName: "", facultyName: "", room: "N/A" },
+      { courseName: "Artificial Intelligence Lab", facultyName: "Golam Rabbi Hasan", room: "714" },
       { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "704" },
       { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "704" },
       // { courseName: "", facultyName: "", room: " " },
     ],
     WED: [
-      { courseName: "", facultyName: "", room: "N/A" },
+      { courseName: "Artificial Intelligence Lab", facultyName: "Golam Rabbi Hasan", room: "714" },
       { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "704" },
       { courseName: "Compiler Design", facultyName: "Moumita Akter", room: "704" },
       // { courseName: "", facultyName: "", room: " " },
