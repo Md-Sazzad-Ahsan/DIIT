@@ -4,14 +4,18 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,  
+      required: true,
+    },
     email: {
-      type: String,  // Change 'string' to String
+      type: String,  
       required: true,
       unique: true,
     },
     password: {
-      type: String,  // Change 'string' to String
-      required: true, // Consider making password required
+      type: String,  
+      required: true, 
     },
     isAdmin: {
       type: Boolean,
@@ -21,5 +25,4 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-// To prevent model compilation errors in Next.js when in development mode
 export default mongoose.models.User || mongoose.model("User", userSchema);

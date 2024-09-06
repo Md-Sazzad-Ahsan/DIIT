@@ -2,25 +2,24 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
-
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    // username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const isValidEmail = (email) =>{
+  const isValidEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
-    
   };
 
   const handleChange = (e) => {
@@ -39,13 +38,13 @@ export default function Register() {
       setError("This email is invalid");
       return;
     }
-    if(!password || password.length < 8) {
+    if (!password || password.length < 8) {
       setError("The password must be at least 8 characters");
       setError("");
       return;
     }
 
-    try{
+    try {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: {
@@ -54,12 +53,13 @@ export default function Register() {
         body: JSON.stringify({ email, password }),
       });
       if (res.status === 400) {
-       setError("This email is already registered.")
-      }if (res.status ===200) {
+        setError("This email is already registered.");
+      }
+      if (res.status === 200) {
         setError("");
         router.push("/login");
       }
-    }catch (error) {
+    } catch (error) {
       setError("An error occurred. Please try again.");
       console.log(error);
     }
@@ -68,10 +68,30 @@ export default function Register() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-darkBg">
       <div className="w-full max-w-md p-8 space-y-8 bg-gray-100 dark:bg-darkBg rounded md:shadow-lg">
-        <h2 className="text-2xl font-bold text-center">Sign Up</h2>
+        <h2 className="text-2xl font-bold text-center">Create an Account</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-100">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-100"
+            >
+              Name
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-teal-400 bg-gray-50 dark:bg-darkBg"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-100"
+            >
               Email
             </label>
             <input
@@ -85,7 +105,10 @@ export default function Register() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-100">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-100"
+            >
               Password
             </label>
             <input
@@ -99,7 +122,10 @@ export default function Register() {
             />
           </div>
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-100">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-100"
+            >
               Confirm Password
             </label>
             <input
@@ -125,20 +151,20 @@ export default function Register() {
           <span className="mx-4 text-gray-500">OR</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
-          <p className="text-gray-700 dark:text-gray-100">Sign up with </p>
+        <p className="text-gray-700 dark:text-gray-100">Sign up with </p>
         <div className="flex justify-center space-x-4">
-          <button className="flex items-start justify-center w-full px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 focus:outline-none">
-            Google
+          <button className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-50 focus:outline-none">
+            <FcGoogle className="mr-2" /> Google
           </button>
-          <button className="flex items-center justify-center w-full px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 focus:outline-none">
-            GitHub
+          <button className="flex items-center justify-center w-full px-4 py-2 border border-gray-200 rounded hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-50 focus:outline-none">
+            <FaGithub className="mr-2" /> GitHub
           </button>
         </div>
         <p className="text-center text-sm text-gray-500 dark:text-gray-300">
           Already have an account?{" "}
-          <a href="/login" className="text-teal-600 hover:underline">
+          <Link href="/login" className="text-teal-600 hover:underline">
             Log in
-          </a>
+          </Link>
         </p>
       </div>
     </div>

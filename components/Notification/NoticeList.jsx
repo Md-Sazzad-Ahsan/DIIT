@@ -25,7 +25,7 @@ const NoticeList = () => {
         setNotices(data.reverse());
       } catch (error) {
         console.error('Failed to fetch notices:', error);
-        setError('Failed to load notices');
+        setError('Failed to load notices,Please check your internet connection.');
       }
     };
 
@@ -111,7 +111,7 @@ const NoticeList = () => {
   return (
     <main className='sm:px-5 md:px-28 lg:px-56'>
       <div className="max-w-full mx-auto my-10 p-5 bg-gray-50 dark:bg-darkBg shadow-sm sm:shadow-lg rounded-md">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-50">Notice</h2>
+        <h2 className="text-2xl font-bold mb-5 sm:mb-6 text-gray-700 dark:text-gray-50">Notice</h2>
         {message && (
           <p className="text-teal-700 mb-4">{message}</p>
         )}
@@ -123,7 +123,7 @@ const NoticeList = () => {
               notices.map((notice, index) => (
                 <div
                   key={index}
-                  className="relative p-4 bg-gray-50 dark:bg-darkBg rounded-md shadow-inner border border-gray-200"
+                  className="relative p-4 bg-gray-50 dark:bg-darkBg rounded-md shadow-sm border border-gray-200"
                 >
                   <div className="absolute top-2 right-2">
                     {/* Show options only if user is logged in */}
@@ -131,7 +131,7 @@ const NoticeList = () => {
                       <>
                         <button 
                           onClick={() => toggleMenu(index)} 
-                          className="text-gray-600 dark:text-gray-50 p-2">
+                          className="text-gray-600 dark:text-gray-50 px-2">
                           {openMenu === index ? '✖' : '⋮'}
                         </button>
                         {openMenu === index && (
@@ -205,7 +205,7 @@ const NoticeList = () => {
                       </button>
                       <button
                         onClick={handleCancelEdit}
-                        className="ml-2 mt-2 px-4 md:px-6 py-1 md:py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-500"
+                        className="ml-2 mt-2 px-4 md:px-6 py-1 md:py-2 bg-gray-200 text-gray-600 rounded-md hover:bg-gray-500"
                       >
                         Cancel
                       </button>

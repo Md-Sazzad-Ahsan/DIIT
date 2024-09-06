@@ -52,7 +52,7 @@ const Header = () => {
   });
 
   const getActiveClass = (path) => {
-    return pathname === path ? 'text-teal-400 dark:text-teal-600 underline' : '';
+    return pathname === path ? 'text-teal-400 dark:text-teal-600 font-bold underline' : '';
   };
 
   return (
@@ -68,26 +68,30 @@ const Header = () => {
         className="hidden shadow-sm lg:flex text-teal-500 dark:text-gray-50 bg-gray-50 dark:bg-darkBg fixed w-full top-0 sm:px-16 md:px-28 lg:px-56 py-4"
       >
         <div className="container mx-auto flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold text-teal-600 dark:text-teal-600">DIIT</Link>
+          <Link href="/" className="text-2xl font-bold text-teal-600 dark:text-teal-600">DIIT</Link>
           <nav className="space-x-8 flex items-center">
-            <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
             {session && ( // Only show "Attendance" and "Dashboard" links if logged in
               <>
-                <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>
-                  Attendance
-                </Link>
                 <Link href="/dashboard" className={`hover:underline font-semibold ${getActiveClass('/dashboard')}`}>
                   Dashboard
+                </Link>
+                </>
+            )}
+            <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
+            {session && (
+            <>
+                <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>
+                  Attendance
                 </Link>
               </>
             )}
             <ToggleSwitch checked={darkMode} onChange={handleToggle} />
             {session ? ( 
-              <button onClick={handleLogout} className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-5 rounded-sm">
+              <button onClick={handleLogout} className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-7 py-1 rounded-md">
                 Log out
               </button>
             ) : (
-              <Link href="/login" className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-5 rounded-sm">
+              <Link href="/login" className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-7 py-1 text-md rounded-md">
                 Log in
               </Link>
             )}
@@ -103,7 +107,7 @@ const Header = () => {
         }}
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="lg:hidden bg-gray-50 dark:bg-darkBg shadow-md fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5"
+        className="lg:hidden bg-gray-50 dark:bg-darkBg shadow-sm fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5"
       >
         <Link href="/" className="text-xl text-teal-600 dark:text-teal-600 font-bold">DIIT</Link>
         <section className='flex'>
@@ -138,19 +142,27 @@ const Header = () => {
         </div>
         <nav className="mt-4 px-4 flex flex-col text-center -z-50">
           <Link href="/" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/')}`}>DIIT</Link>
-          <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
+
           {session && ( // Only show "Attendance" and "Dashboard" links if logged in
             <>
-              <Link href="/attendance" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/attendance')}`}>
-                Attendance
-              </Link>
               <Link href="/dashboard" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/dashboard')}`}>
                 Dashboard
               </Link>
             </>
           )}
+
+          <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
+
+          {session && (
+            <>
+              <Link href="/attendance" onClick={closeSidebar} className={`block py-2 mb-2 hover:underline ${getActiveClass('/attendance')}`}>
+                Attendance
+              </Link>
+            </>
+          )}
+        
           {session ? (
-            <button onClick={handleLogout} className="block py-2 hover:underline bg-teal-600">Log out</button>
+            <button onClick={handleLogout} className="block py-2 hover:underline bg-teal-600 text-gray-50">Log out</button>
           ) : (
             <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600 text-gray-50`}>Log in</Link>
           )}

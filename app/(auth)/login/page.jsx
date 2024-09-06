@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export default function LoginPage() {
   const [error, setError] = useState("");
@@ -63,9 +65,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-darkBg">
-      <div className="w-full max-w-md p-8 space-y-8 bg-gray-100 dark:bg-darkBg rounded md:shadow-lg">
-        <h2 className="text-2xl font-bold text-center">Log In</h2>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-darkBg">
+      <div className="w-full max-w-md p-8 space-y-8 bg-gray-50 dark:bg-darkBg rounded md:shadow-lg">
+        <h2 className="text-2xl font-bold text-center">Welcome Back</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
@@ -85,7 +87,10 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Password
             </label>
             <input
@@ -108,12 +113,18 @@ export default function LoginPage() {
                 onChange={handleChange}
                 className="h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-400"
               />
-              <label htmlFor="rememberMe" className="ml-2 text-sm text-teal-500">
+              <label
+                htmlFor="rememberMe"
+                className="ml-2 text-sm text-teal-500"
+              >
                 Remember me
               </label>
             </div>
             <div>
-              <Link href="/forgot-password" className="text-sm text-teal-500 hover:underline">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-teal-500 hover:underline"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -132,11 +143,11 @@ export default function LoginPage() {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
         <div className="flex justify-center space-x-4">
-          <button className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 focus:outline-none">
-            Google
+          <button className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-50 focus:outline-none">
+            <FcGoogle className="mr-2" /> Google
           </button>
-          <button className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 focus:outline-none">
-            GitHub
+          <button className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-50 focus:outline-none">
+            <FaGithub className="mr-2" /> GitHub
           </button>
         </div>
         <p className="text-center text-sm text-gray-600 dark:text-gray-400">

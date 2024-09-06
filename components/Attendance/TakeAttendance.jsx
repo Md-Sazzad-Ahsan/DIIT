@@ -122,7 +122,7 @@ export default function StudentTable() {
       .sort((a, b) => a - b); // Sort numerically
 
     const message = encodeURIComponent(
-      `Batch: ${selectedBatch}\nSection: ${selectedSection}\nSubject: ${selectedSubject}\nDate: ${currentDate}\n\nSelected IDs:\n${sortedIds.join(", ")}`
+      `*Date*: ${currentDate}\n*Batch:* ${selectedBatch},   *Section:* ${selectedSection}\n*Subject:* ${selectedSubject}\n*Present:* ${selectedFields.length}\n\n *Present IDs:*\n------------------------------------------\n${sortedIds.join(", ")}`
     );
 
     return `https://api.whatsapp.com/send?text=${message}`;
@@ -135,15 +135,15 @@ export default function StudentTable() {
   return (
     <div className="my-20 py-10 px-5 sm:px-10 md:px-28 lg:px-56">
       <div className="grid grid-cols-2 items-center mb-4 gap-1">
-        <span className="text-gray-600 dark:text-gray-50 font-semibold bg-gray-200 dark:bg-gray-700 pl-2 py-2 col-span-2">
+        <span className="text-gray-600 dark:text-gray-50 font-semibold bg-gray-100 dark:bg-gray-600 pl-2 py-2 col-span-2">
           Date: {currentDate}
         </span>
         <select
-          className="text-gray-600 dark:text-gray-50 bg-gray-200 dark:bg-gray-700 font-semibold pl-2 py-2"
+          className="text-gray-600 dark:text-gray-50 bg-gray-100 dark:bg-gray-600 font-semibold pl-2 py-2"
           value={selectedBatch}
           onChange={(e) => setSelectedBatch(e.target.value)}
         >
-          <option value="CSE20">Batch CSE 20</option>
+          <option value="CSE20">CSE 20</option>
           <option value="CSE21">Batch CSE 21</option>
           <option value="CSE22">Batch CSE 22</option>
           <option value="CSE23">Batch CSE 23</option>
@@ -151,7 +151,7 @@ export default function StudentTable() {
           <option value="CSE25">Batch CSE 25</option>
         </select>
         <select
-          className="text-gray-600 dark:text-gray-50 bg-gray-200 dark:bg-gray-700 font-semibold pl-2 py-2"
+          className="text-gray-600 dark:text-gray-50 bg-gray-100 dark:bg-gray-600 font-semibold pl-2 py-2"
           value={selectedSection}
           onChange={(e) => setSelectedSection(e.target.value)}
         >
@@ -166,7 +166,7 @@ export default function StudentTable() {
           )}
         </select>
         <select
-          className="text-gray-600 dark:text-gray-50 bg-gray-200 dark:bg-gray-700 font-semibold pl-2 py-2 col-span-2"
+          className="text-gray-600 dark:text-gray-50 bg-gray-100 dark:bg-gray-600 font-semibold pl-2 py-2 col-span-2"
           value={selectedSubject}
           onChange={(e) => setSelectedSubject(e.target.value)}
         >
@@ -191,8 +191,8 @@ export default function StudentTable() {
             return (
               <motion.div
                 key={student.id}
-                className={`border border-gray-300 text-center px-1 py-2 cursor-pointer ${
-                  isSelected ? "bg-green-600" : ""
+                className={`border border-gray-300 text-center text-sm md:text-md px-1 py-2 cursor-pointer rounded-sm shadow-inner ${
+                  isSelected ? "bg-green-600 text-gray-100" : "text-gray-600 dark:text-gray-100"
                 }`}
                 onClick={() => handleFieldClick(student)}
                 whileTap={{ scale: 0.9 }}
@@ -206,29 +206,41 @@ export default function StudentTable() {
         )}
       </div>
       {popupField && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-300 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-50">
-          <motion.div
-            className="bg-gray-100 dark:bg-gray-500 text-gray-600 dark:text-gray-50 p-5 rounded-md"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-          >
-            <p>
-              <strong>Name:</strong> {popupField.name}
-            </p>
-            <p>
-              <strong>ID:</strong> {popupField.id}
-            </p>
-            <button
-              className="mt-4 px-10 py-2 bg-red-600 text-white rounded"
-              onClick={handleAbsentClick}
-            >
-              Absent
-            </button>
-          </motion.div>
-        </div>
-      )}
-      <div className="mt-10 flex justify-end gap-4">
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-400 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-50">
+    <motion.div
+      className="bg-gray-100 dark:bg-gray-500 text-gray-600 dark:text-gray-50 p-5 rounded-md relative"
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
+    >
+      <p>
+        <strong>Name:</strong> {popupField.name}
+      </p>
+      <p>
+        <strong>ID:</strong> {popupField.id}
+      </p>
+      <div className="mt-4 flex justify-between space-x-3">
+        <button
+          className="px-4 py-1 bg-red-600 text-gray-50 rounded"
+          onClick={handleAbsentClick}
+        >
+          Absent
+        </button>
+        <button
+          className="px-4 py-1 border border-gray-400 text-gray-500 dark:text-gray-50 rounded"
+          onClick={() => setPopupField(null)}
+        >
+          Close
+        </button>
+      </div>
+    </motion.div>
+  </div>
+)}
+
+      <div className="mt-10 flex justify-between items-center gap-4">
+        <span className="text-gray-600 dark:text-gray-50 font-semibold pl-1">
+          Present: {selectedFields.length}
+        </span>
         <button
           className="px-4 py-2 bg-green-500 text-white rounded"
           onClick={handleWhatsAppShare}
