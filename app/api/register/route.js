@@ -4,23 +4,29 @@ import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export const POST = async (request) => {
-    const {name,email,password} =await request.json();
-
-    await connect();
-    const existingUser = await User.findOne({email: email});
-
-    if (existingUser) {
-        return new NextResponse("User already exists",{status:400});
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({name, email, password: hashedPassword})
-
     try {
-        await newUser.save();
-        return new NextResponse("User registered successfully", {status:200});
+        const { name, email, password } = await request.json();
 
+        await connect(); // Connect to the database
+
+        // Check if the user already exists
+        const existingUser = await User.findOne({ email: email });
+        if (existingUser) {
+            return new NextResponse("User already exists", { status: 400 });
+        }
+
+        // Hash the password before saving it
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create a new user
+        const newUser = new User({ name, email, password: hashedPassword });
+
+        // Save the new user to the database
+        await newUser.save();
+        
+        return new NextResponse("User registered successfully", { status: 200 });
     } catch (err) {
-        return new NextResponse(err, {status:500});
-     }
-}
+        console.error("Error creating user:", err);
+        return new NextResponse("Internal server error", { status: 500 });
+    }
+};

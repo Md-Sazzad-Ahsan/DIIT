@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -31,16 +31,23 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
+    const name = formData.name;
+    const email = formData.email;
+    const password = formData.password;
+    const confirmPassword = formData.confirmPassword;
 
     if (!isValidEmail(email)) {
       setError("This email is invalid");
       return;
     }
-    if (!password || password.length < 8) {
+
+    if (password.length < 8) {
       setError("The password must be at least 8 characters");
-      setError("");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
       return;
     }
 
@@ -50,11 +57,13 @@ export default function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
+
       if (res.status === 400) {
         setError("This email is already registered.");
       }
+
       if (res.status === 200) {
         setError("");
         router.push("/login");
@@ -78,9 +87,9 @@ export default function Register() {
               Name
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
+              type="text"
+              name="name"
+              id="name"
               value={formData.name}
               onChange={handleChange}
               className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-teal-400 bg-gray-50 dark:bg-darkBg"
