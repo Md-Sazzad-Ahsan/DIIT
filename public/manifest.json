@@ -4,15 +4,15 @@
     "description": "A comprehensive web application designed for students and faculty of the CSE Department at DIIT, offering easy access to schedules, notices, and academic resources for efficient learning.",
     "icons": [
       {
-        "src": "/android-chrome-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      },
-      {
         "src": "/android-chrome-192x192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any maskable"
+      },
+      {
+        "src": "/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
       },
       {
         "src": "/apple-touch-icon.png",

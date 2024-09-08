@@ -43,7 +43,9 @@ const config = {
         },
       };
       addUtilities(newUtilities);
-    })
+    }),
+    // require('@tailwindcss/forms'),
+    // require('@tailwindcss/typography')
   ],
 };
 
