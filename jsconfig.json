@@ -5,5 +5,5 @@
       "@/*": ["./*"] // Sets up a path alias for easier imports
     }
   },
-  "include": ["app", "pages", "components", "lib/dbConnect.js", "utils", "data"] // Includes common directories
+  "include": ["app", "pages", "components","utils", "data", "SessionProvider.jsx"] // Includes common directories
 }

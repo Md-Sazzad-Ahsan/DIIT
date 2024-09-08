@@ -21,10 +21,10 @@ const studentSchema = new mongoose.Schema({
     required: true,
   },
   registration:{
-    type:Number,
+    type:String,
     unique: true,
     required: false,
-    default: '00000000000',
+    default: '',
   },
   bloodGroup: {
     type: String,

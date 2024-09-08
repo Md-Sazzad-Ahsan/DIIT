@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/db'; // Ensure this path is correct
 import Student from '@/models/Student';
+import generateUniqueRegistration from '@/utils/generateUniqueRegistration';
 
 // Connect to MongoDB
 async function getDatabase() {
@@ -32,7 +33,6 @@ export async function GET(request) {
   }
 }
 
-
 // POST a new student
 export async function POST(request) {
   await getDatabase();
@@ -63,15 +63,18 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Student with this phone number already exists.' }, { status: 409 });
     }
 
+    // Generate a unique registration number
+    const registration = generateUniqueRegistration();
+
     // Create a new student if no duplicates are found
-    const student = new Student(data);
+    const student = new Student({ ...data, registration });
     await student.save();
 
     return NextResponse.json({ message: 'Student added successfully', student }, { status: 201 });
   } catch (error) {
-    // Return a user-friendly error message
+    console.error('Error adding student:', error);
     return NextResponse.json(
-      { error: 'Student with these record already Exists. Please try again.' },
+      { error: 'An unexpected error occurred. Please try again.' },
       { status: 500 }
     );
   }

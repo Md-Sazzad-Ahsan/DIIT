@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header/Header";
 import { getServerSession } from "next-auth";
-import SessionProvider from "@/utils/SessionProvider"
+import SessionProvider from "@/SessionProvider"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +18,7 @@ export const metadata = {
     url: "https://cse20.vercel.app",
     images: [
       {
-        url: "https://cse20.vercel.app/images/opengraph-image.png",
+        url: "https://cse20.vercel.app/opengraph-image.png",
         width: 1200,
         height: 630,
         alt: "CSE-DIIT Open Graph Image",
@@ -31,7 +31,7 @@ export const metadata = {
     description:
      "A comprehensive web application designed for students and faculty of the CSE Department at DIIT, offering easy access to schedules, notices, and academic resources for efficient learning.",
     card: "summary_large_image",
-    image: "https://cse20.vercel.app/images/opengraph-image.png",
+    image: "https://cse20.vercel.app/opengraph-image.png",
      },
   metadataBase: new URL("https://cse20.vercel.app"),
 };
@@ -40,7 +40,12 @@ export default async function RootLayout({
   children,
 }) {
 
-  const session = await getServerSession();
+let session;
+  try {
+    session = await getServerSession();
+  } catch (error) {
+    console.error('Failed to get server session:', error);
+  }
   return (
     <html lang="en">
       <head>

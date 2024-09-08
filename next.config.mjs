@@ -1,8 +1,8 @@
 import withPWA from "@ducanh2912/next-pwa";
-
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your other Next.js configurations can go here
+  images: {
+    domains: ['pexels.com','pinterest.com','unsplash.com'], 
+  },
 };
 
 const pwaConfig = withPWA({
