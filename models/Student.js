@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 // Define the Student Schema
 const studentSchema = new mongoose.Schema({
   StudentID: {
-    type: String,
+    type: Number,
     required: true,
     unique: true,
   },
@@ -20,13 +20,20 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  registration:{
+    type:Number,
+    unique: true,
+    required: false,
+    default: '00000000000',
+  },
   bloodGroup: {
     type: String,
     required: true,
   },
   phoneNumber: {
-    type: String,
+    type: Number,
     required: true,
+    unique: true,
   },
   email: {
     type: String,
@@ -36,6 +43,7 @@ const studentSchema = new mongoose.Schema({
   photo: {
     type: String,
     required: false,
+    default:'./userDemo.jpg',
   },
 });
 

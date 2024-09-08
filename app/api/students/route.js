@@ -32,63 +32,92 @@ export async function GET(request) {
   }
 }
 
+
 // POST a new student
 export async function POST(request) {
   await getDatabase();
 
   try {
     const data = await request.json();
+    const { StudentID, email, phoneNumber } = data;
 
-    // Validation: Check if StudentID is present
-    if (!data.StudentID) {
-      return NextResponse.json({ error: 'StudentID is required' }, { status: 400 });
+    if (!StudentID || !email || !phoneNumber) {
+      return NextResponse.json({ error: 'StudentID, Email, and Phone Number are required' }, { status: 400 });
     }
 
+    // Check if a student with the same StudentID already exists
+    const existingStudentByID = await Student.findOne({ StudentID });
+    if (existingStudentByID) {
+      return NextResponse.json({ error: 'Student with this ID already exists.' }, { status: 409 });
+    }
+
+    // Check if a student with the same email already exists
+    const existingStudentByEmail = await Student.findOne({ email });
+    if (existingStudentByEmail) {
+      return NextResponse.json({ error: 'Student with this email already exists.' }, { status: 409 });
+    }
+
+    // Check if a student with the same phone number already exists
+    const existingStudentByPhone = await Student.findOne({ phoneNumber });
+    if (existingStudentByPhone) {
+      return NextResponse.json({ error: 'Student with this phone number already exists.' }, { status: 409 });
+    }
+
+    // Create a new student if no duplicates are found
     const student = new Student(data);
     await student.save();
-    return NextResponse.json(student);
+
+    return NextResponse.json({ message: 'Student added successfully', student }, { status: 201 });
   } catch (error) {
-    // Check for MongoDB duplicate key errors
-    if (error.code === 11000) {
-      return NextResponse.json({ error: 'Student with this ID already exists' }, { status: 409 });
-    }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Return a user-friendly error message
+    return NextResponse.json(
+      { error: 'Student with these record already Exists. Please try again.' },
+      { status: 500 }
+    );
   }
 }
 
-// PUT (update) a student
+
 // PUT (update) a student
 export async function PUT(request) {
   await getDatabase();
 
   try {
     const data = await request.json();
-    const { StudentID, ...updateData } = data;
+    const { StudentID, _id, phoneNumber, email } = data; 
 
-    // Validation: Check if StudentID is provided
-    if (!StudentID) {
-      return NextResponse.json({ error: 'Student_ID is required for update' }, { status: 400 });
+    // Validate if both _id and StudentID are provided
+    if (!StudentID || !_id) {
+      return NextResponse.json({ error: 'StudentID are required for updating the student' }, { status: 400 });
     }
 
-    // Check if another student with the same ID exists
-    const existingStudent = await Student.findOne({ StudentID });
-    if (existingStudent && existingStudent._id.toString() !== data._id) {
-      return NextResponse.json({ error: 'Student with this ID already exists' }, { status: 409 });
+    // Check if student exists by _id
+    const existingStudent = await Student.findById(_id);
+    if (!existingStudent) {
+      return NextResponse.json({ error: 'Student not found with the provided ID' }, { status: 404 });
     }
 
-    const student = await Student.findOneAndUpdate(
-      { _id: data._id }, // Ensure correct identifier for update
-      updateData,
-      { new: true, runValidators: true }
-    );
-
-    if (!student) {
-      return NextResponse.json({ error: 'Student not found' }, { status: 404 });
+    // Check if phone number or email is already in use by another student
+    const duplicatePhone = await Student.findOne({ phoneNumber, _id: { $ne: _id } });
+    if (duplicatePhone) {
+      return NextResponse.json({ error: 'Phone number is already in use by another student' }, { status: 409 });
     }
 
-    return NextResponse.json(student);
+    const duplicateEmail = await Student.findOne({ email, _id: { $ne: _id } });
+    if (duplicateEmail) {
+      return NextResponse.json({ error: 'Email is already in use by another student' }, { status: 409 });
+    }
+
+    // Update student information based on the provided data
+    const updatedStudent = await Student.findByIdAndUpdate(_id, data, { new: true, runValidators: true });
+
+    return NextResponse.json({ message: 'Student updated successfully', student: updatedStudent }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Return a user-friendly error message
+    return NextResponse.json(
+      { error: 'Student with this ID already exists.' },
+      { status: 500 }
+    );
   }
 }
 

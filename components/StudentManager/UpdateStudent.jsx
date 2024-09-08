@@ -9,7 +9,7 @@ export default function UpdateStudent() {
     name: '',
     batch: 'CSE 20', // Default value
     section: 'A', // Default section
-    bloodGroup: 'A+', // Default blood group
+    bloodGroup: 'A+ (ve)', // Default blood group
     phoneNumber: '',
     email: '',
     photo: ''
@@ -25,34 +25,41 @@ export default function UpdateStudent() {
   };
 
   // Search for a student
-  const searchStudent = async () => {
-    try {
-      const response = await fetch(`/api/students?studentID=${encodeURIComponent(searchId)}`);
-      const result = await response.json();
-      console.log('Search Result:', result);
+ // Search for a student
+const searchStudent = async () => {
+  if (!searchId.trim()) {
+    // If the search box is empty or only contains whitespace
+    setMessage('Please enter a valid Student ID');
+    return; // Stop further execution if input is empty
+  }
 
-      if (response.ok && result) {
-        setStudentData(result);
-        setFormData({
-          StudentID: result.StudentID || '',
-          name: result.name || '',
-          batch: result.batch || 'CSE 20', // Use existing batch value or default
-          section: result.section || 'A',
-          bloodGroup: result.bloodGroup || 'A+',
-          phoneNumber: result.phoneNumber || '',
-          email: result.email || '',
-          photo: result.photo || ''
-        });
-        setMessage('');
-      } else {
-        setMessage(result.error || 'Student not found');
-        setStudentData(null); // Clear studentData to display the search box
-      }
-    } catch (error) {
-      console.error('Error searching for student:', error);
-      setMessage('An error occurred while searching for the student');
+  try {
+    const response = await fetch(`/api/students?studentID=${encodeURIComponent(searchId)}`);
+    const result = await response.json();
+    console.log('Search Result:', result);
+
+    if (response.ok && result) {
+      setStudentData(result);
+      setFormData({
+        StudentID: result.StudentID || '',
+        name: result.name || '',
+        batch: result.batch || 'CSE 20', // Use existing batch value or default
+        section: result.section || 'A',
+        bloodGroup: result.bloodGroup || 'A+ (ve)',
+        phoneNumber: result.phoneNumber || '',
+        email: result.email || '',
+        photo: result.photo || ''
+      });
+      setMessage('');
+    } else {
+      setMessage(result.error || 'Student not found');
+      setStudentData(null); // Clear studentData to display the search box
     }
-  };
+  } catch (error) {
+    console.error('Error searching for student:', error);
+    setMessage('An error occurred while searching for the student');
+  }
+};
 
   // Update student information
 const updateStudent = async () => {
@@ -78,7 +85,7 @@ const updateStudent = async () => {
           name: '',
           batch: 'CSE 20', // Default value
           section: 'A',
-          bloodGroup: 'A+',
+          bloodGroup: 'A+ (ve)',
           phoneNumber: '',
           email: '',
           photo: ''
@@ -107,7 +114,7 @@ const updateStudent = async () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="">
       <h1 className="text-xl font-bold mb-4">Update Student</h1>
 
       {/* Message Display */}
