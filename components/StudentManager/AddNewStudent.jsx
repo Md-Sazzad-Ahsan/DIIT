@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 
-export default function StudentManager() {
+export default function AddNewStudent() {
   const [formData, setFormData] = useState({
     StudentID: '',
     name: '',
@@ -64,7 +64,7 @@ export default function StudentManager() {
   };
 
   return (
-    <div className=" text-gray-600 dark:text-gray-50">
+    <div className="text-gray-600 dark:text-gray-50">
       <h1 className="text-xl font-bold mb-4">Student Manager</h1>
 
       {/* Button to show/hide the form */}
@@ -79,7 +79,7 @@ export default function StudentManager() {
         <div className="mb-4 space-y-2">
           <form>
             <input
-              type="Number"
+              type="number"
               name="StudentID"
               placeholder="Student ID"
               value={formData.StudentID}
@@ -102,7 +102,7 @@ export default function StudentManager() {
             >
               {Array.from({ length: 50 }, (_, i) => `CSE ${i + 1}`).map((batch) => (
                 <option key={batch} value={batch}>
-                 {`Batch ${batch}`}
+                  {`Batch ${batch}`}
                 </option>
               ))}
             </select>
@@ -114,7 +114,7 @@ export default function StudentManager() {
             >
               {['A', 'B', 'C', 'D', 'E'].map((section) => (
                 <option key={section} value={section}>
-                 {`Section ${section}`}
+                  {`Section ${section}`}
                 </option>
               ))}
             </select>
@@ -126,12 +126,12 @@ export default function StudentManager() {
             >
               {['A+ (ve)', 'A- (ve)', 'B+ (ve)', 'B- (ve)', 'AB+ (ve)', 'AB- (ve)', 'O+ (ve)', 'O- (ve)'].map((bloodGroup) => (
                 <option key={bloodGroup} value={bloodGroup}>
-                 {`Blood Group ${bloodGroup}`} 
+                  {`Blood Group ${bloodGroup}`}
                 </option>
               ))}
             </select>
             <input
-              type="Number"
+              type="number"
               name="phoneNumber"
               placeholder="Phone Number"
               value={formData.phoneNumber}

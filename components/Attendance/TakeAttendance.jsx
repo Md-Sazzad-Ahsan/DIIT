@@ -143,7 +143,7 @@ export default function StudentTable() {
           value={selectedBatch}
           onChange={(e) => setSelectedBatch(e.target.value)}
         >
-          <option value="CSE20">CSE 20</option>
+          <option value="CSE20">Batch CSE 20</option>
           <option value="CSE21">Batch CSE 21</option>
           <option value="CSE22">Batch CSE 22</option>
           <option value="CSE23">Batch CSE 23</option>

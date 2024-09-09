@@ -1,7 +1,6 @@
-// models/Student.js
 import mongoose from 'mongoose';
 
-// Define the Student Schema
+// Define the schema
 const studentSchema = new mongoose.Schema({
   StudentID: {
     type: Number,
@@ -20,8 +19,8 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  registration:{
-    type:String,
+  registration: {
+    type: String,
     unique: true,
     required: false,
     default: '',
@@ -43,11 +42,13 @@ const studentSchema = new mongoose.Schema({
   photo: {
     type: String,
     required: false,
-    default:'./userDemo.jpg',
+    default: './userDemo.jpg',
   },
 });
 
+export function getStudentModel(batch) {
+  const collectionName = `Batch_${batch.replace(' ', '_')}`;
+  return mongoose.models[collectionName] || mongoose.model(collectionName, studentSchema, collectionName);
+}
 
-const Student = mongoose.models.Student || mongoose.model('Student', studentSchema);
 
-export default Student;

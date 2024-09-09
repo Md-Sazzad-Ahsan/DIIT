@@ -4,8 +4,7 @@ import NoticeForm from '@/components/Notification/NoticeForm';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import NoticeList from '@/components/Notification/NoticeList';
-import AddNewStudent from '@/components/StudentManager/AddNewStudent';
-import UpdateStudent from '@/components/StudentManager/UpdateStudent';
+import StudentManager from '@/components/StudentManager/StudentManager';
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -26,10 +25,9 @@ function Dashboard() {
 
   return (
     <main >
+      <StudentManager />
      <div className='py-20 px-5 sm:px-10 md:px-28 lg:px-56'>
-      <AddNewStudent />
-      <UpdateStudent />
-     <NoticeForm />
+      <NoticeForm />
      </div>
       <NoticeList />
     </main>
