@@ -1,9 +1,12 @@
-"use client";
+'use client';
 import { useEffect, useRef, useState } from 'react';
-import { useSession } from 'next-auth/react'; 
+import { useSession } from 'next-auth/react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'; // GitHub-Flavored Markdown
+import rehypeHighlight from 'rehype-highlight';
 
 const NoticeList = () => {
-  const { data: session } = useSession(); 
+  const { data: session } = useSession();
   const [notices, setNotices] = useState([]);
   const [error, setError] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -25,7 +28,7 @@ const NoticeList = () => {
         setNotices(data.reverse());
       } catch (error) {
         console.error('Failed to fetch notices:', error);
-        setError('Failed to load notices,Please check your internet connection.');
+        setError('Failed to load notices, please check your internet connection.');
       }
     };
 
@@ -126,7 +129,6 @@ const NoticeList = () => {
                   className="relative p-4 bg-gray-50 dark:bg-darkBg rounded-md shadow-sm border border-gray-200"
                 >
                   <div className="absolute top-2 right-2">
-                    {/* Show options only if user is logged in */}
                     {session && (
                       <>
                         <button 
@@ -178,7 +180,7 @@ const NoticeList = () => {
                     <div>
                       <textarea
                         ref={headlineRef}
-                        className="w-full text-xl font-bold text-gray-700 dark:text-gray-50 bg-transparent border-b mb-2 resize-none"
+                        className="w-full text-xl font-bold text-gray-700 dark:text-gray-50 bg-transparent border-b mb-1 resize-none"
                         value={editedNotice.headline}
                         onChange={(e) => {
                           setEditedNotice({ ...editedNotice, headline: e.target.value });
@@ -187,7 +189,7 @@ const NoticeList = () => {
                       />
                       <textarea
                         ref={descriptionRef}
-                        className="w-full text-gray-700 dark:text-gray-50 bg-transparent border-b mb-2 resize-none"
+                        className="w-full min-h-52 text-gray-700 dark:text-gray-50 bg-transparent border-b mb-3 resize-none"
                         value={editedNotice.description}
                         onChange={(e) => {
                           setEditedNotice({ ...editedNotice, description: e.target.value });
@@ -212,11 +214,18 @@ const NoticeList = () => {
                     </div>
                   ) : (
                     <div>
-                      <h3 className="text-xl font-bold text-gray-700 dark:text-gray-50">
+                      <h3 className="text-xl py-2 font-bold text-gray-600 dark:text-gray-50">
                         {notice.headline}
                       </h3>
-                      <p className="text-gray-700 dark:text-gray-50 mt-2">{notice.description}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-300 mt-5">
+                      {/* Render the description as markdown */}
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        className={`markdown remarkPlugins=${[remarkGfm]}
+  rehypePlugins=${[rehypeHighlight]} text-gray-700 dark:text-gray-50 mt-2`}
+                      >
+                        {notice.description}
+                      </ReactMarkdown>
+                      <p className="text-sm text-gray-500 dark:text-gray-300 mt-2 pt-4">
                         Date: {notice.date}
                       </p>
                     </div>
@@ -224,7 +233,7 @@ const NoticeList = () => {
                 </div>
               ))
             ) : (
-              <p className="text-gray-700 dark:text-gray-300">No notices to display.</p>
+              <p>No notices available.</p>
             )}
           </div>
         )}
@@ -234,3 +243,4 @@ const NoticeList = () => {
 };
 
 export default NoticeList;
+ 
