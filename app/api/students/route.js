@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/db'; // Ensure this path is correct
 import generateUniqueRegistration from '@/utils/generateUniqueRegistration';
-import { getStudentModel } from '@/models/Student'; // Ensure this path is correct
+import { getStudentModel } from '@/models/Students/Student'; // Ensure this path is correct
 
 // Connect to MongoDB
 async function getDatabase() {

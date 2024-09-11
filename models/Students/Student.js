@@ -51,4 +51,3 @@ export function getStudentModel(batch) {
   return mongoose.models[collectionName] || mongoose.model(collectionName, studentSchema, collectionName);
 }
 
-
