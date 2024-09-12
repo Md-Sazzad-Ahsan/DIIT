@@ -21,13 +21,11 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         try {
-          // Find user by email
           const user = await User.findOne({ email: credentials.email });
           if (!user) {
             throw new Error("No user found with this email");
           }
 
-          // Validate password
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
             user.password
@@ -37,11 +35,11 @@ const handler = NextAuth({
             throw new Error("Invalid password");
           }
 
-          // Return user object
+          // Return user object with isAdmin property
           return {
             id: user._id,
             email: user.email,
-            isAdmin: user.isAdmin, // Include isAdmin in the user object
+            isAdmin: user.isAdmin, 
           };
         } catch (error) {
           throw new Error("Failed to authorize user");
@@ -49,44 +47,43 @@ const handler = NextAuth({
       },
     }),
   ],
-  pages: {
-    signIn: "/login", 
-    error: "/login", 
-  },
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        // Store user information, including isAdmin, in the token
+        token.user = {
+          id: user.id,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        };
+      }
+      return token;
+    },
     async session({ session, token }) {
-      // Attach user to session from token
-      if (token?.user) {
+      if (token.user) {
+        // Pass the user information, including isAdmin, to the session
         session.user = token.user;
       }
       return session;
     },
-    async jwt({ token, user }) {
-      // Attach user to token if it exists
-      if (user) {
-        token.user = user;
-      }
-      return token;
-    },
   },
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24 * 15, // Session expiration time set to 15 days
-    updateAge: 24 * 60 * 60,   // Token refresh once per day
+    maxAge: 60 * 60 * 24 * 15, // 15 days
+    updateAge: 24 * 60 * 60, // 24 hours
   },
   cookies: {
     sessionToken: {
       name: `next-auth.session-token`,
       options: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-        sameSite: "lax",  // Ensure session cookies are used properly
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
         path: "/",
       },
     },
   },
-  secret: process.env.NEXTAUTH_SECRET, // Make sure the secret is set into environment
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
-// Export handlers for Next.js App Router
 export { handler as GET, handler as POST };
