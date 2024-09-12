@@ -1,8 +1,10 @@
 import { Inter } from "next/font/google";
+import { Suspense } from 'react';
 import "./globals.css";
 import Header from "../components/Header/Header";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/SessionProvider"
+import Loading from '@/components/Loading';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,7 +59,9 @@ let session;
          <SessionProvider session={session}> 
 
         <Header />
+        <Suspense fallback={<Loading />}>
         <main>{children}</main>
+        </Suspense>
         {/* <Footer /> */}
         
         </SessionProvider> 

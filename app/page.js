@@ -1,11 +1,15 @@
+import { Suspense } from 'react';
 import NoticeList from "@/components/Notification/NoticeList";
 import ResponsiveTable from "@/components/Schedule/ResponsiveTable";
+import Loading from '@/components/Loading'; // Adjust the import based on your file structure
 
 export default function Home() {
   return (
     <main className="py-20 bg-gray-50 dark:bg-darkBg">
-      <ResponsiveTable />
-      <NoticeList />
+      <Suspense fallback={<Loading />}>
+        <ResponsiveTable />
+        <NoticeList />
+      </Suspense>
     </main>
   );
 };

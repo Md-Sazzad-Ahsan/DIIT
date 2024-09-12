@@ -1,8 +1,9 @@
 "use client";
-import { useSession, signIn } from 'next-auth/react';
-import NoticeForm from '@/components/Notification/NoticeForm';
+
+import { useSession } from 'next-auth/react';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import NoticeForm from '@/components/Notification/NoticeForm';
 import NoticeList from '@/components/Notification/NoticeList';
 import StudentManager from '@/components/StudentManager/StudentManager';
 
@@ -12,23 +13,27 @@ function Dashboard() {
 
   useEffect(() => {
     if (status === 'loading') return; // Do nothing while loading
+
     if (!session) {
-      // Redirect them to the sign-in page if not logged in
+      // Redirect to login if not logged in
       router.push('/login');
+    } else if (!session.user?.isAdmin) {
+      // Redirect to home if not an admin
+      router.push('/home');
     }
   }, [session, status, router]);
 
-  if (status === 'loading' || !session) {
-    // Optionally, show a loading state or a placeholder
+  // Show a loading state while status is 'loading', or session is not available
+  if (status === 'loading' || !session || !session.user?.isAdmin) {
     return <div>Loading...</div>;
   }
 
   return (
-    <main >
+    <main>
       <StudentManager />
-     <div className='py-20 px-5 sm:px-10 md:px-28 lg:px-56'>
-      <NoticeForm />
-     </div>
+      <div className='py-20 px-5 sm:px-10 md:px-28 lg:px-56'>
+        <NoticeForm />
+      </div>
       <NoticeList />
     </main>
   );

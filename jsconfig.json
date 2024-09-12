@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".", // Base directory for resolving non-relative module names
+    "baseUrl": ".", 
     "paths": {
-      "@/*": ["./*"] // Sets up a path alias for easier imports
+      "@/*": ["./*"] 
     }
   },
-  "include": ["app", "pages", "components","utils", "data", "SessionProvider.jsx"] // Includes common directories
+  "include": ["app", "pages", "components","utils", "data", "SessionProvider.jsx", "middleware.js"] 
 }

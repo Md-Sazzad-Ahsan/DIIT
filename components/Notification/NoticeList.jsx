@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'; // GitHub-Flavored Markdown
 import rehypeHighlight from 'rehype-highlight';
+import { usePathname } from 'next/navigation'; // Get current path
 
 const NoticeList = () => {
   const { data: session } = useSession();
@@ -16,6 +17,7 @@ const NoticeList = () => {
 
   const headlineRef = useRef(null);
   const descriptionRef = useRef(null);
+  const pathname = usePathname(); // Get current path
 
   useEffect(() => {
     const fetchNotices = async () => {
@@ -111,6 +113,9 @@ const NoticeList = () => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
+  // Display last 3 notices on homepage and all notices on '/notices'
+  const displayedNotices = pathname === '/' ? notices.slice(0, 3) : notices;
+
   return (
     <main className='sm:px-5 md:px-28 lg:px-56'>
       <div className="max-w-full mx-auto my-10 p-5 bg-gray-50 dark:bg-darkBg shadow-sm sm:shadow-lg rounded-md">
@@ -122,8 +127,8 @@ const NoticeList = () => {
           <p className="text-red-600">{error}</p>
         ) : (
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {notices.length > 0 ? (
-              notices.map((notice, index) => (
+            {displayedNotices.length > 0 ? (
+              displayedNotices.map((notice, index) => (
                 <div
                   key={index}
                   className="relative p-4 bg-gray-50 dark:bg-darkBg rounded-md shadow-sm border border-gray-200"
@@ -214,10 +219,13 @@ const NoticeList = () => {
                     </div>
                   ) : (
                     <div>
-                      <h3 className="text-xl py-2 font-bold text-gray-600 dark:text-gray-50">
+                        <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+                        Date: {notice.date}
+                      </p>
+                      <h3 className="text-xl py-1 font-bold text-gray-600 dark:text-gray-50 mb-5">
                         {notice.headline}
                       </h3>
-                      {/* Render the description as markdown */}
+                      
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         className={`markdown remarkPlugins=${[remarkGfm]}
@@ -225,15 +233,13 @@ const NoticeList = () => {
                       >
                         {notice.description}
                       </ReactMarkdown>
-                      <p className="text-sm text-gray-500 dark:text-gray-300 mt-2 pt-4">
-                        Date: {notice.date}
-                      </p>
+                    
                     </div>
                   )}
                 </div>
               ))
             ) : (
-              <p>No notices available.</p>
+              <p className="text-gray-700 dark:text-gray-50">Reloading notices, please wait...</p>
             )}
           </div>
         )}
@@ -243,4 +249,3 @@ const NoticeList = () => {
 };
 
 export default NoticeList;
- 
