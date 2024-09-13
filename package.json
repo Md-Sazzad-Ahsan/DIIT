@@ -32,6 +32,7 @@
     "react-markdown": "^9.0.1",
     "react-simplemde-editor": "^5.2.0",
     "rehype-highlight": "^7.0.0",
+    "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "simplemde": "^1.11.2",
     "slate": "^0.103.0",

@@ -4,11 +4,14 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import User from "@/models/User";
 
-if (!mongoose.connection.readyState) {
-  mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+// Utility to connect to MongoDB (best practice)
+async function connectToDatabase() {
+  if (mongoose.connection.readyState !== 1) {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
 }
 
 const handler = NextAuth({
@@ -21,6 +24,8 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         try {
+          await connectToDatabase(); // Connect to the database
+
           const user = await User.findOne({ email: credentials.email });
           if (!user) {
             throw new Error("No user found with this email");
@@ -39,10 +44,11 @@ const handler = NextAuth({
           return {
             id: user._id,
             email: user.email,
-            isAdmin: user.isAdmin, 
+            isAdmin: user.isAdmin,
           };
         } catch (error) {
-          throw new Error("Failed to authorize user");
+          console.error("Authorization error:", error);
+          throw new Error(error.message || "Failed to authorize user");
         }
       },
     }),

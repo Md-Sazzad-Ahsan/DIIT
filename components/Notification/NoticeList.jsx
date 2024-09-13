@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'; // GitHub-Flavored Markdown
 import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw'; // To render raw HTML
 import { usePathname } from 'next/navigation'; // Get current path
 
 const NoticeList = () => {
@@ -219,7 +220,7 @@ const NoticeList = () => {
                     </div>
                   ) : (
                     <div>
-                        <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
                         Date: {notice.date}
                       </p>
                       <h3 className="text-xl py-1 font-bold text-gray-600 dark:text-gray-50 mb-5">
@@ -228,18 +229,18 @@ const NoticeList = () => {
                       
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
-                        className={`markdown remarkPlugins=${[remarkGfm]}
-  rehypePlugins=${[rehypeHighlight]} text-gray-700 dark:text-gray-50 mt-2`}
+                        rehypePlugins={[rehypeHighlight, rehypeRaw]} 
+                        className="markdown max-w-none"
                       >
                         {notice.description}
                       </ReactMarkdown>
-                    
+
                     </div>
                   )}
                 </div>
               ))
             ) : (
-              <p className="text-gray-700 dark:text-gray-50">Reloading notices, please wait...</p>
+              <p className="text-gray-500">No notices available</p>
             )}
           </div>
         )}

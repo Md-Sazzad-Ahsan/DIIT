@@ -1,5 +1,6 @@
 // tailwind.config.js
 import plugin from "tailwindcss/plugin";
+
 const config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,34 +19,31 @@ const config = {
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontSize: {
-        '10xl': '10rem', // Example size, adjust as needed
-        '11xl': '12rem', // Example size, adjust as needed
+        '10xl': '10rem',
+        '11xl': '12rem',
       },
       lineHeight: {
-        'custom-tight': '0.6', // Example custom line height
+        'custom-tight': '0.6',
       },
       textColor: {
-        'transparent': 'transparent', // Custom text color for transparency
+        'transparent': 'transparent',
       },
-      
     },
   },
-  darkMode: 'class', // Enable class-based dark mode
+  darkMode: 'class',
   plugins: [
     plugin(function({ addUtilities }) {
       const newUtilities = {
         '.scrollbar-hide': {
-          '-ms-overflow-style': 'none', /* IE and Edge */
-          'scrollbar-width': 'none', /* Firefox */
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
         },
         '.scrollbar-hide::-webkit-scrollbar': {
-          display: 'none', /* Chrome, Safari, and Opera */
+          display: 'none',
         },
       };
       addUtilities(newUtilities);
     }),
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/typography')
   ],
 };
 

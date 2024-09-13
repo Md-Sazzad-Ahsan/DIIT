@@ -8,6 +8,8 @@ export default function Home() {
     <main className="py-20 bg-gray-50 dark:bg-darkBg">
       <Suspense fallback={<Loading />}>
         <ResponsiveTable />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
         <NoticeList />
       </Suspense>
     </main>
