@@ -1,7 +1,7 @@
 {
     "name": "CSE-DIIT",
     "short_name": "CSE-DIIT",
-    "description": "A comprehensive web application designed for students and faculty of the CSE Department at DIIT, offering easy access to schedules, notices, and academic resources for efficient learning.",
+    "description": "A comprehensive web application designed for students and faculty of the Department of CSE (DIIT), offering easy access to schedules, notices, and academic resources for efficient learning.",
     "icons": [
       {
         "src": "/android-chrome-192x192.png",

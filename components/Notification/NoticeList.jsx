@@ -240,7 +240,7 @@ const NoticeList = () => {
                 </div>
               ))
             ) : (
-              <p className="text-gray-500">No notices available</p>
+              <p className="text-gray-500">loading notice, please wait...</p>
             )}
           </div>
         )}

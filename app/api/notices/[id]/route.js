@@ -5,7 +5,8 @@ import { NextResponse } from 'next/server';
 const noticeSchema = new mongoose.Schema({
   date: String,
   headline: String,
-  description: String
+  description: String,
+  pinned: Boolean
 });
 
 const Notice = mongoose.models.Notice || mongoose.model('Notice', noticeSchema);
