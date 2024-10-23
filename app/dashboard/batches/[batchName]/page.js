@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import SemesterList from '@/components/SemesterManagement/SemesterList';
 import SemesterForm from '@/components/SemesterManagement/SemesterForm';
 import { getBatchData } from '@/utils/api'; // Ensure this file exists
 
-export default function Batch({ params }) {
+export default function Batch(props) {
+  const params = use(props.params);
   const { batchName } = params; // Access dynamic route parameter
   const [batchData, setBatchData] = useState(null);
   const [error, setError] = useState(null);

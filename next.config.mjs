@@ -1,21 +1,26 @@
-/**@type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig = {
   images: {
-    domains: ['pexels.com','pinterest.com','unsplash.com'], 
+    domains: ['pexels.com', 'pinterest.com', 'unsplash.com'],
+  },
+  experimental: {
+    turbo: {
+      enabled: true,  // Enable Turbopack
+    },
   },
 };
 
 const pwaConfig = withPWA({
-  dest: "public", 
-  cacheOnFrontEndNav: true, 
-  aggressiveFrontEndNavCaching: true, 
-  reloadOnOnline: true, 
-  swMinify: true, 
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  swMinify: true,
   disable: process.env.NODE_ENV === 'development',
   workboxOptions: {
-    disableDevLogs: true, 
+    disableDevLogs: true,
   },
 });
 

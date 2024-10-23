@@ -4,6 +4,10 @@
 @tailwind utilities;
 
 
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
 :root {
   --bg-color: rgb(250, 250, 250);
   --text-color: rgb(32, 29, 29);
@@ -48,8 +52,12 @@ html {
 
   .markdown code {
     background-color: #40444b; 
-    color: #ffffff;            
+    color: #dfdcdc;            
   }
+}
+.dark .markdown code {
+  background-color: #40444b;
+  color: #ffffff;
 }
 
 }

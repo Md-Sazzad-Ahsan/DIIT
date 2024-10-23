@@ -11,7 +11,8 @@ const noticeSchema = new mongoose.Schema({
 
 const Notice = mongoose.models.Notice || mongoose.model('Notice', noticeSchema);
 
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
   try {
     await connect(); // Ensure MongoDB connection
     const { id } = params; // Extract ID from params
@@ -26,7 +27,8 @@ export async function GET(request, { params }) {
   }
 }
 
-export async function PUT(request, { params }) {
+export async function PUT(request, props) {
+  const params = await props.params;
   try {
     await connect(); // Ensure MongoDB connection
     const { id } = params; // Extract ID from params
@@ -42,7 +44,8 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, props) {
+  const params = await props.params;
   try {
     await connect(); // Ensure MongoDB connection
     const { id } = params; // Extract ID from params

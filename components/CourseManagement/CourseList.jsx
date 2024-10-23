@@ -2,32 +2,32 @@
 import { useEffect, useState } from 'react';
 
 export default function CourseList({ batchName, semesterName }) {
-  const [courses, setCourses] = useState([]);
+  const [semester, setSemesterName] = useState([]);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch(`/api/courses/${batchName}/${semesterName}`);
+        const response = await fetch(`/api/courses/${semesterName}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch courses');
+          throw new Error('Failed to fetch semester');
         }
         const data = await response.json();
-        setCourses(data.courses || []);
+        setSemesterName(data.semesterName || []);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error fetching semester:', error);
       }
     };
 
     fetchCourses();
-  }, [batchName, semesterName]);
+  }, [semesterName]);
 
   return (
     <div>
       <h2>Courses in {semesterName}</h2>
       <ul>
-        {courses.map((course) => (
+        {semesterName.map((semester) => (
           <li key={course.CourseCode}>
-            {course.CourseName} ({course.CourseCode})
+            {semester.semesterName}
           </li>
         ))}
       </ul>

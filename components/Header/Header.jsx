@@ -59,135 +59,129 @@ const Header = () => {
     console.log('Session:', session); // Debugging
   }, [session]);
 
-  return (
-    <>
-      {/* Desktop Header */}
-      <motion.header
-        variants={{
-          visible: { y: 0 },
-          hidden: { y: "-100%" },
-        }}
-        animate={hidden ? "hidden" : "visible"}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="hidden shadow-sm lg:flex text-teal-500 dark:text-gray-50 bg-gray-50 dark:bg-darkBg fixed w-full top-0 sm:px-16 md:px-28 lg:px-56 py-4"
-      >
-        <div className="container mx-auto flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-teal-600 dark:text-teal-600">DIIT</Link>
-          <nav className="space-x-8 flex items-center">
-            {session && session.user?.isAdmin && ( // Only show "Dashboard" link if the user is an admin
-              <Link href="/dashboard" className={`hover:underline font-semibold ${getActiveClass('/dashboard')}`}>
-                Dashboard
-              </Link>
-            )}
-            <Link href="/notices" className={`hover:underline font-semibold ${getActiveClass('/notices')}`}>Notice</Link>
-            {session && (
-              <>
-                <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
-              </>
-            )}
-            {session && (
-              <>
-                <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>
-                  Attendance
-                </Link>
-              </>
-            )}
-            <ToggleSwitch checked={darkMode} onChange={handleToggle} />
-            
-            {/* Show "Checking..." while session is loading */}
-            {status === 'loading' ? (
-              <button className="cursor-not-allowed ring-1 shadow-md bg-gray-400 text-gray-50 px-7 py-1 rounded-md">
-                loading..
-              </button>
-            ) : session ? (
-              <button onClick={handleLogout} className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-7 py-1 rounded-md">
-                Log out
-              </button>
-            ) : (
-              <Link href="/login" className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-7 py-1 text-md rounded-md">
-                Log in
-              </Link>
-            )}
-          </nav>
-        </div>
-      </motion.header>
-
-      {/* Mobile Header */}
-      <motion.header
-        variants={{
-          visible: { y: 0 },
-          hidden: { y: "-100%" },
-        }}
-        animate={hidden ? "hidden" : "visible"}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="lg:hidden bg-gray-50 dark:bg-darkBg shadow-sm fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5"
-      >
-        <Link href="/" className="text-xl text-teal-600 dark:text-teal-600 font-bold">DIIT</Link>
-        <section className='flex'>
-          <div className="mt-4 px-4">
-            <ToggleSwitch checked={darkMode} onChange={handleToggle} />
-          </div>
-          <button
-            onClick={toggleSidebar}
-            className="text-3xl py-2 text-gray-700 dark:text-gray-50"
-            aria-label="Menu"
-          >
-            ☰
-          </button>
-        </section>
-      </motion.header>
-
-      {/* Mobile Sidebar */}
-      <motion.aside
-        initial={{ x: "100%" }}
-        animate={{ x: sidebarOpen ? 0 : "100%" }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className={`fixed top-0 right-0 w-64 h-full bg-[var(--bg-color)] text-[var(--text-color)] shadow-lg z-50 lg:hidden`}
-      >
-        <div className="flex justify-start items-center p-4">
-          <button
-            onClick={toggleSidebar}
-            className="text-2xl"
-            aria-label="Close menu"
-          >
-            &times;
-          </button>
-        </div>
-        <nav className="mt-4 px-4 flex flex-col text-center -z-50">
-          <Link href="/" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/')}`}>DIIT</Link>
-
+  return (<>
+    {/* Desktop Header */}
+    <motion.header
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="hidden shadow-sm lg:flex text-teal-500 dark:text-gray-50 bg-gray-50 dark:bg-darkBg fixed w-full top-0 sm:px-16 md:px-28 lg:px-56 py-4"
+    >
+      <div className="container mx-auto flex justify-between items-center">
+        <Link href="/" className="text-2xl font-bold text-teal-600 dark:text-teal-600">DIIT</Link>
+        <nav className="space-x-8 flex items-center">
           {session && session.user?.isAdmin && ( // Only show "Dashboard" link if the user is an admin
-            <Link href="/dashboard" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/dashboard')}`}>
-              Dashboard
-            </Link>
+            (<Link href="/dashboard" className={`hover:underline font-semibold ${getActiveClass('/dashboard')}`}>Dashboard
+                            </Link>)
           )}
-          <Link href="/notices" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/notices')}`}>Notice</Link>
+          <Link href="/notices" className={`hover:underline font-semibold ${getActiveClass('/notices')}`}>Notice</Link>
           {session && (
             <>
-              <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
+              <Link href="/schedule" className={`hover:underline font-semibold ${getActiveClass('/schedule')}`}>Schedule</Link>
             </>
           )}
-
           {session && (
             <>
-              <Link href="/attendance" onClick={closeSidebar} className={`block py-2 mb-2 hover:underline ${getActiveClass('/attendance')}`}>
+              <Link href="/attendance" className={`hover:underline font-semibold ${getActiveClass('/attendance')}`}>
                 Attendance
               </Link>
             </>
           )}
+          <ToggleSwitch checked={darkMode} onChange={handleToggle} />
           
-          {/* Show "Checking..." in mobile menu during session loading */}
+          {/* Show "Checking..." while session is loading */}
           {status === 'loading' ? (
-            <button className="block py-2 cursor-not-allowed bg-gray-400 text-gray-50">loading..</button>
+            <button className="cursor-not-allowed ring-1 shadow-md bg-gray-400 text-gray-50 px-7 py-1 rounded-md">
+              loading..
+            </button>
           ) : session ? (
-            <button onClick={handleLogout} className="block py-2 hover:underline bg-teal-600 text-gray-50">Log out</button>
+            <button onClick={handleLogout} className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-7 py-1 rounded-md">
+              Log out
+            </button>
           ) : (
-            <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600 text-gray-50`}>Log in</Link>
+            <Link href="/login" className="hover:underline ring-1 shadow-md bg-teal-600 text-gray-50 px-7 py-1 text-md rounded-md">
+              Log in
+            </Link>
           )}
         </nav>
-      </motion.aside>
-    </>
-  );
+      </div>
+    </motion.header>
+    {/* Mobile Header */}
+    <motion.header
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="lg:hidden bg-gray-50 dark:bg-darkBg shadow-sm fixed w-full top-0 z-50 flex justify-between items-center py-1 px-5"
+    >
+      <Link href="/" className="text-xl text-teal-600 dark:text-teal-600 font-bold">DIIT</Link>
+      <section className='flex'>
+        <div className="mt-4 px-4">
+          <ToggleSwitch checked={darkMode} onChange={handleToggle} />
+        </div>
+        <button
+          onClick={toggleSidebar}
+          className="text-3xl py-2 text-gray-700 dark:text-gray-50"
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+      </section>
+    </motion.header>
+    {/* Mobile Sidebar */}
+    <motion.aside
+      initial={{ x: "100%" }}
+      animate={{ x: sidebarOpen ? 0 : "100%" }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      className={`fixed top-0 right-0 w-64 h-full bg-[var(--bg-color)] text-[var(--text-color)] shadow-lg z-50 lg:hidden`}
+    >
+      <div className="flex justify-start items-center p-4">
+        <button
+          onClick={toggleSidebar}
+          className="text-2xl"
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+      </div>
+      <nav className="mt-4 px-4 flex flex-col text-center -z-50">
+        <Link href="/" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/')}`}>DIIT</Link>
+
+        {session && session.user?.isAdmin && ( // Only show "Dashboard" link if the user is an admin
+          (<Link href="/dashboard" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/dashboard')}`}>Dashboard
+                        </Link>)
+        )}
+        <Link href="/notices" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/notices')}`}>Notice</Link>
+        {session && (
+          <>
+            <Link href="/schedule" onClick={closeSidebar} className={`block py-2 hover:underline ${getActiveClass('/schedule')}`}>Schedule</Link>
+          </>
+        )}
+
+        {session && (
+          <>
+            <Link href="/attendance" onClick={closeSidebar} className={`block py-2 mb-2 hover:underline ${getActiveClass('/attendance')}`}>
+              Attendance
+            </Link>
+          </>
+        )}
+        
+        {/* Show "Checking..." in mobile menu during session loading */}
+        {status === 'loading' ? (
+          <button className="block py-2 cursor-not-allowed bg-gray-400 text-gray-50">loading..</button>
+        ) : session ? (
+          <button onClick={handleLogout} className="block py-2 hover:underline bg-teal-600 text-gray-50">Log out</button>
+        ) : (
+          <Link href="/login" onClick={closeSidebar} className={`block py-2 hover:underline bg-teal-600 text-gray-50`}>Log in</Link>
+        )}
+      </nav>
+    </motion.aside>
+  </>);
 };
 
 export default Header;

@@ -2246,7 +2246,7 @@ define(['exports'], (function (exports) { 'use strict';
           // the networkPromise resolves instead of returning null.
           // Note that it's fine to await an already-resolved promise, so we don't
           // have to check to see if it's still "in flight".
-          await networkPromise);
+          (await networkPromise));
         })());
         {
           logger.groupCollapsed(messages.strategyStart(this.constructor.name, request));
