@@ -2,7 +2,7 @@
 
 import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/db';
-import { Semester } from '@/models/Semester';
+import { Semester } from '@/models/Semester/Semester';
 
 export async function GET({ params }) {
   try {
