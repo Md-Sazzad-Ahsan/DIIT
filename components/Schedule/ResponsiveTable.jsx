@@ -4,39 +4,36 @@ import { useState, useEffect } from "react";
 
 export default function ResponsibleTable() {
   const days = ["SUN", "MON", "TUE", "WED", "THU"];
-  const times = ["10:10AM - 11:20AM", "11:40AM - 12:50PM", "12:50PM - 02:00PM"];
+  const times = ["10:40AM - 11:50AM", "12:00PM - 01:10PM", "01:10PM - 02:20PM"];
 
   const coursesByDay = {
     SUN: [
       { courseName: "", facultyName: "", room: "" },
       { courseName: "", facultyName: "", room: "" },
       { courseName: "", facultyName: "", room: "" },
-      { courseName: "", facultyName: "", room: "" }
+      // { courseName: "", facultyName: "", room: "" }
     ],
     MON: [
-      { courseName: "Computer Graphics Lab", facultyName: "MD Musfiqur Rahman", room: "715" },
       { courseName: "Compiler Design", facultyName: "Moumita Akter", room: "704" },
       { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "704" },
-      // { courseName: "", facultyName: "", room: " " },
+      { courseName: "", facultyName: "", room: " " },
     ],
     TUE: [
-      { courseName: "", facultyName: "", room: "" },
-      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "704" },
-      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "704" },
-      // { courseName: "", facultyName: "", room: " " },
+      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "715" },
+      { courseName: "Computer Graphics", facultyName: "Mizanur Rahman", room: "715" },
+      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "715" },
     ],
     WED: [
-      { courseName: "", facultyName: "", room: "" },
+      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "704" },
       { courseName: "Compiler Design", facultyName: "Moumita Akter", room: "704" },
       { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "704" },
-      
       // { courseName: "", facultyName: "", room: " " },
     ],
     THU: [
       { courseName: "", facultyName: "", room: "" },
-      { courseName: "E-commerce & Web Eng.", facultyName: "Nusrhat Jahan Sarkar", room: "704" },
-      { courseName: "Artificial Intelligence", facultyName: "Tanjila Chowdhury Orpe", room: "704" },
-      // { courseName: "", facultyName: "", room: " " },
+      { courseName: "", facultyName: "", room: "" },
+      { courseName: "", facultyName: "", room: "" },
+      // { courseName: "", facultyName: "", room: "" },
     ]
   };
 
